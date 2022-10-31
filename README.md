@@ -1,5 +1,5 @@
-# COMP2113_Group10
-COMP 2113 group project for group 10
+# COMP2113_Group16
+COMP 2113 group project for group 16
 
 Team members:
 ###### Du Liheng 3035532870  
