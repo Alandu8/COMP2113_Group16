@@ -17,3 +17,23 @@ COMP 2113 group project for group 16
 2. Data structures for storing game status
 
   -
+
+3. Dynamic memory management
+
+  -
+
+4. File input/output (e.g., for loading/saving game status)
+
+  -
+  
+5. Program codes in multiple files
+
+  -
+
+## External Libraries
+
+
+
+## Further Info
+
+3 links (TO DO)
