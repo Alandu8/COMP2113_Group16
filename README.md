@@ -9,6 +9,14 @@ COMP 2113 group project for group 16
 
 ## Game Description
 
+There is a 19 \times 19 board for two players. Two players will claim a box alternatively. The winning strategy is similar to Gomoku, also known as Five in a Row. The winner is the first player to construct a continuous chain of five boxes horizontally, vertically, or diagonally, but there are several additional rules in this game.
+
+  - Randomly decides whether player 1 or player 2 will play first.
+  - Initially, there are 20 random exclueded boxes which are not available for both two players. Available boxes are non-exclueded at the beginning or unclaimed by         players. If player choose the unavailable box, he will receive a warning and be asked to change his selection.
+  - The first player should claim an available box.
+  - After each player's decision, the other player is required to claim an available box. The claiming is an alternative operation.
+  - The game will end if one player construct an unbroken chain of five boxes horizontally, vertically, or diagonally. This player will be the winner.
+
 ## Game Features
 
 #### 1. Generation of random game sets or events
