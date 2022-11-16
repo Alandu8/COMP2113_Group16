@@ -55,8 +55,7 @@ void board::arr_init() { //arr is for storage of use input data
 
 void board::block() { //initialize board with blocks stopping user input
     int number = 20; //number of blocks, can be modified by user later
-    srand(time(0));
-    //int myrandom (int i) { return rand()%i;}
+    srand(time(0)); //problem with random seed, random_shuffle not random
     vector<string> board_item;
     for (int i = 0; i<15; i++) {
         for (int j = 0; j<15; j++) {
