@@ -41,7 +41,9 @@ The winner is the first player to construct a continuous chain of five boxes hor
   
 #### 5. Program codes in multiple files
 
-  -
+  - Files are  `main.cpp`, `body.cpp`, `body.h` and `Makefile`. 
+  - `main.cpp` is our main function and we will include the functions that we defined in `body.cpp`.
+  - we use `Makefile` to link files.
 
 ## External Libraries
 
