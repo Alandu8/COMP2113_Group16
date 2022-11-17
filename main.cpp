@@ -168,6 +168,72 @@ void block() { //initialize board with blocks stopping user input
     }
 }
 
+
+
+int straight_five(string arr[15][15],int row,int col){
+  //row success
+    for(int i = 0; i < 5; i++){
+        if(col - i >= 0 && col - i + 4 < 15){
+          if (arr[row][col-i] == arr[row][col-i+1] &&
+          arr[row][col-i] == arr[row][col-i+2] &&
+          arr[row][col-i] == arr[row][col-i+3] &&
+          arr[row][col-i] == arr[row][col-i+4] &&
+          arr[row][col-i] != " ")
+            return 1;
+        }
+    }
+
+  //column success
+    for(int i = 0; i < 5; i++){
+        if(row - i >= 0 && row - i + 4 < 15){
+          if (arr[row-i][col] == arr[row-i+1][col] &&
+          arr[row-i][col] == arr[row-i+2][col] &&
+          arr[row-i][col] == arr[row-i+3][col] &&
+          arr[row-i][col] == arr[row-i+4][col] &&
+          arr[row-i][col] != " ")
+            return 1;
+        }
+
+    }
+
+  // diaginal success (ascending)
+    for(int i = 0; i < 5; i++){
+        if(row + i < 15 && row + i - 4 >= 0 && col - i >= 0 && col - i + 4 < 15){
+          if (arr[row+i][col-i] == arr[row+i-1][col-i+1] &&
+          arr[row+i][col-i] == arr[row+i-2][col-i+2] &&
+          arr[row+i][col-i] == arr[row+i-3][col-i+3] &&
+          arr[row+i][col-i] == arr[row+i-4][col-i+4] &&
+          arr[row+i][col-i]!=" ")
+            return 1;
+        }
+    }
+
+  // diagonal success (decending)
+    for(int i = 0; i < 5; i++){
+        if(row - i >= 0 && row - i - 4 < 15 && col - i >= 0 && col - i + 4 < 15){
+          if (arr[row-i][col-i] == arr[row-i+1][col-i+1] &&
+          arr[row-i][col-i] == arr[row-i+2][col-i+2] &&
+          arr[row-i][col-i] == arr[row-i+3][col-i+3] &&
+          arr[row-i][col-i] == arr[row-i+4][col-i+4] &&
+          arr[row-i][col-i]!=" ")
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+bool success(string arr[15][15]) {
+    for (int row = 0; row < 15; row++){
+        for (int col = 0; col < 15; col++){
+            if (straight_five(arr, row, col) == 1) 
+              return 1;
+        }
+    }
+    return 0;
+}
+
+
 void classic(string &player1,string &player2){ 
     bool game_signal = true;
     cout <<  "Game starts! You may interrupt the game by entering [-1]" << endl;
@@ -177,6 +243,7 @@ void classic(string &player1,string &player2){
             system("clear");
         }
         print_board();
+	game_signal = success(arr);
     }
     save_board(arr);
 }
@@ -192,6 +259,7 @@ void blocked_mountains(string &player1,string &player2){
         if (flag>=1)
         system("clear");
         print_board();
+	game_signal = success(arr);
     }
     save_board(arr);
 }
