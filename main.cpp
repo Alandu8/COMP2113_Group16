@@ -9,6 +9,7 @@
 
 using namespace std;
 
+
 // load rules of our game
 void load_rule(){
     ifstream fin;
@@ -59,14 +60,59 @@ void print_board(){
     cout << "  ·---+---+---+---+---+---+---+---+---+---+---+---+---+---+---·" << endl;
 }
 
+// use for save board
+void save_board(string arr[15][15]) {
+    ofstream fout;
+    string save_address;
+    cout << "Please enter the address you want to save the board, it should end with .txt " << endl;
+    cin >> save_address;
+    fout.open(save_address);
+
+    if ( fout.fail() ) {
+        cout << "Error in file opening!" << endl;
+        exit(1);
+    }
+
+    fout << "There is the final board:" << endl;
+    fout << "     0   1   2   3   4   5   6   7   8   9  10  11  12  13  14" << endl;
+    for (int i = 0; i<15; i++) {
+        fout << "  ·---+---+---+---+---+---+---+---+---+---+---+---+---+---+---·" << endl;
+        if (i >= 10) {
+            fout << i << '|';
+            for (int j = 0; j<15; j++) {
+                fout << ' ' << arr[i][j] << " |";
+            }
+        }
+        else {
+            fout << ' ' << i << '|';
+                for (int j = 0; j<15; j++) {
+                    fout << ' ' << arr[i][j] << " |";
+                }
+        }
+        fout << endl;
+    }
+    fout << "  ·---+---+---+---+---+---+---+---+---+---+---+---+---+---+---·" << endl;
+
+    fout.close();
+}
+
 // this function is used to take in the user input and change the values inside arr
 // this function will avoid the case 1) user input is out of range 2)the user input is already occupied
 // the player will input row and then col
-void player(int &flag,int col, int row, string arr[15][15]){
+void player(int &flag,int col, int row, string arr[15][15],string player1,string &player2,bool &game_signal){
   int check = 0;
   while (check == 0){
-    cout << "Player " << flag%2 +1 << ": ";
+    if (flag%2 +1 == 1) {
+        cout << player1 << ": ";
+    } else {
+        cout << player2 << ": ";
+    }
+    
     cin >> row >> col;
+    if (row == -1) {
+        game_signal = false;
+    }
+
     if (col>=15 || row >=15){
       cout << "Invalid Input, try again..." << endl;
     }
@@ -88,7 +134,16 @@ void player(int &flag,int col, int row, string arr[15][15]){
   }
   cout << endl;
 }
-
+//11.17 block has problems to solve mode 1 is not working 
+// void mode1(){ // version 1
+//   block(); 
+//   while (true){
+//     player(flag,col,row,arr);
+//     if (flag>=1)
+//       system("clear");
+//     print_board();
+//   }
+// }
 
 void block() { //initialize board with blocks stopping user input
     int number = 20; //number of blocks, can be modified by user later
@@ -113,11 +168,44 @@ void block() { //initialize board with blocks stopping user input
     }
 }
 
+void classic(string &player1,string &player2){ 
+    bool game_signal = true;
+    cout <<  "Game starts! You may interrupt the game by entering [-1]" << endl;
+    while (game_signal){
+        player(flag,col,row,arr,player1,player2,game_signal);
+        if (flag>=1){
+            system("clear");
+        }
+        print_board();
+    }
+    save_board(arr);
+}
+
+
+void blocked_mountains(string &player1,string &player2){
+    bool game_signal = true;
+    block();
+    print_board();
+    cout <<  "Game starts! You may interrupt the game by entering [-1]" << endl;
+    while (game_signal){
+        player(flag,col,row,arr,player1,player2,game_signal);
+        if (flag>=1)
+        system("clear");
+        print_board();
+    }
+    save_board(arr);
+}
+
+void wild_parties(string &player1,string &player2){
+    bool game_signal = true;
+    cout <<  "Game starts! You may interrupt the game by entering [-1]" << endl;
+}
+
 // initialize game:
 // 1. choose mode: A.classic, B.blocked mountains (having blocked cells), C. wild parties (several cooool things may happen)
 // 2. save and load chess board
 // 3. Rename Players !!to be implemented
-void initialize(string &player1,string &player2){
+string initialize(string &player1,string &player2){
     string indicator;
     cout << "*---------------------------------------------------*" << endl;
     cout << "Welcome to Gomoku Pro! Enjoy your game" << endl;
@@ -137,34 +225,32 @@ void initialize(string &player1,string &player2){
     cin >> indicator;
     if (indicator == "y"){
         load_rule();
-    } else {
-        // initialize board
-        for (int i = 0; i<15; i++) {
-            for (int j = 0; j<15; j++) {
-                arr[i][j] = " "; //initially is blank or x(blocked), after input, change to ● (black) or ○ (white)
-            }
-        }
-        if (indicator == "b"){
-            block();
-        } else {
-            if (indicator == "c"){
-                // wait for xingtian
-            }
-        }
-    }
+    } 
+    return indicator;
 
 }
 
 int main() {
-    string player1,player2;
-    initialize(player1,player2);
+    string player1,player2,mode_indicator;
+    mode_indicator = initialize(player1,player2);
 
     // starting game
-    while (true){ // define a function which will return true if 5 in a line
-        player(flag,col,row,arr);
-        if (flag>=1){
-          system("clear");
+
+    if (mode_indicator == "a"){
+        cout << "You have chosen classic mode" << endl;
+        classic(player1,player2);
+    } else {
+        if (mode_indicator == "b"){
+            cout << "You have chosen blocked mode" << endl;
+            blocked_mountains(player1,player2);
+        } else {
+            if (mode_indicator == "c"){
+                cout << "You have chosen wild mode, let's go crazzzy!" << endl;
+                wild_parties(player1,player2);
+            } else {
+                cout << "Error in game mode indicator! Please re-start" << endl;
+                exit(1);
+            }
         }
-        print_board();
     }
 }
