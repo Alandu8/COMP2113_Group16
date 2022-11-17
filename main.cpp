@@ -227,17 +227,17 @@ bool success(string arr[15][15]) {
     for (int row = 0; row < 15; row++){
         for (int col = 0; col < 15; col++){
             if (straight_five(arr, row, col) == 1) 
-              return 1;
+              return false;
         }
     }
-    return 0;
+    return true;
 }
 
 
 void classic(string &player1,string &player2){ 
     bool game_signal = true;
     cout <<  "Game starts! You may interrupt the game by entering [-1]" << endl;
-    while (game_signal){
+    while (game_signal == true){
         player(flag,col,row,arr,player1,player2,game_signal);
         if (flag>=1){
             system("clear");
@@ -254,7 +254,7 @@ void blocked_mountains(string &player1,string &player2){
     block();
     print_board();
     cout <<  "Game starts! You may interrupt the game by entering [-1]" << endl;
-    while (game_signal){
+    while (game_signal == true){
         player(flag,col,row,arr,player1,player2,game_signal);
         if (flag>=1)
         system("clear");
