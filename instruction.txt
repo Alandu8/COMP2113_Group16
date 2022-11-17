@@ -1,0 +1,5 @@
+1. Basic Rules for classic mode:
+
+
+
+2. You will have a few cells which are randomly chosen to be blocked out in blocked mode
