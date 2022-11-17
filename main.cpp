@@ -301,9 +301,14 @@ string initialize(string &player1,string &player2){
 int main() {
     string player1,player2,mode_indicator;
     mode_indicator = initialize(player1,player2);
-
+	//need to assign " " to arr[i][j]
+	for (int i = 0; i<15; i++) {
+    	for (int j = 0; j<15; j++) {
+        	arr[i][j] = " "; //after input, change to ● (black) or ○ (white)
+    	}
+  	}
     // starting game
-
+	
     if (mode_indicator == "a"){
         cout << "You have chosen classic mode" << endl;
         classic(player1,player2);
