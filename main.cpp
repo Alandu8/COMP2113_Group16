@@ -9,7 +9,7 @@
 using namespace std;
 
 // create a board class to manipulate the chess board
-//black -> ● 
+//black -> ● ◉
 //white -> ○
 
 
@@ -49,7 +49,7 @@ void player(int &flag,int col, int row, string arr[15][15]){
     if (col>=15 || row >=15){
       cout << "Invalid Input, try again..." << endl;
     }
-    else if (arr[row][col]=="●" || arr[row][col]=="○" ){
+    else if (arr[row][col]=="●" || arr[row][col]=="○" ||  arr[row][col]=="X"){
       cout << "Invalid Input, try again..." << endl;
     }
     else
