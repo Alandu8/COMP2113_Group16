@@ -55,11 +55,11 @@ void player(int &flag,int col, int row, string arr[15][15]){
   int check = 0;
   while (check == 0){
     cout << "Player " << flag%2 +1 << ": ";
-    cin >> col >> row;
+    cin >> row >> col;
     if (col>=15 || row >=15){
       cout << "Invalid Input, try again..." << endl;
     }
-    else if (arr[col][row]=="●" || arr[col][row]=="○" ){
+    else if (arr[row][col]=="●" || arr[row][col]=="○" ){
       cout << "Invalid Input, try again..." << endl;
     }
     else
@@ -67,12 +67,12 @@ void player(int &flag,int col, int row, string arr[15][15]){
   }
 
   if (flag%2==0){
-    arr[col][row] = "●";
+    arr[row][col] = "●";
     flag++;
   }
 
   else{
-    arr[col][row] = "○";
+    arr[row][col] = "○";
     flag++;
   }
   cout << endl;
