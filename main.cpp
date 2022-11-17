@@ -5,8 +5,29 @@
 #include <vector>
 #include <iterator>
 #include <algorithm>
+#include <fstream>
 
 using namespace std;
+
+// load rules of our game
+void load_rule(){
+    ifstream fin;
+	fin.open("instruction.txt"); // need to be written
+
+    if ( fin.fail() ){
+		cout << "Error in file opening!" 
+			<< endl;
+ 		exit(1);
+ 	}
+    
+    string line;
+
+	while ( getline(fin, line) ) {
+		cout << line << endl;
+ 	}
+
+	fin.close();
+}
 
 // create a board class to manipulate the chess board
 //black -> ● ◉
@@ -92,14 +113,53 @@ void block() { //initialize board with blocks stopping user input
     }
 }
 
-int main() {
+// initialize game:
+// 1. choose mode: A.classic, B.blocked mountains (having blocked cells), C. wild parties (several cooool things may happen)
+// 2. save and load chess board
+// 3. Rename Players !!to be implemented
+void initialize(string &player1,string &player2){
+    string indicator;
+    cout << "*---------------------------------------------------*" << endl;
+    cout << "Welcome to Gomoku Pro! Enjoy your game" << endl;
+    cout << "Do you want to read game instruction (recommended)? Please input [y/n]" << endl;
+    cin >> indicator;
+    if (indicator == "y"){
+        load_rule();
+    } 
+    cout <<  "What's Player1's name? Please enter here:" << endl;
+    cin >> player1;
+    cout <<  "What's Player2's name? Please enter here:" << endl;
+    cin >> player2;
 
-    for (int i = 0; i<15; i++) {
-        for (int j = 0; j<15; j++) {
-            arr[i][j] = " "; //initially is blank or x(blocked), after input, change to ● (black) or ○ (white)
+    cout <<  "Please choose game mode by entering corresponding number key" << endl;
+    cout <<  "[a]: Classic Mode | [b]: Blocked Mode | [c]: Wild Mode" << endl;
+    cout <<  "What to know more about these modes? Please input [y]" << endl;
+    cin >> indicator;
+    if (indicator == "y"){
+        load_rule();
+    } else {
+        // initialize board
+        for (int i = 0; i<15; i++) {
+            for (int j = 0; j<15; j++) {
+                arr[i][j] = " "; //initially is blank or x(blocked), after input, change to ● (black) or ○ (white)
+            }
+        }
+        if (indicator == "b"){
+            block();
+        } else {
+            if (indicator == "c"){
+                // wait for xingtian
+            }
         }
     }
-    block();
+
+}
+
+int main() {
+    string player1,player2;
+    initialize(player1,player2);
+
+    // starting game
     while (true){ // define a function which will return true if 5 in a line
         player(flag,col,row,arr);
         if (flag>=1){
