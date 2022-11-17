@@ -12,17 +12,7 @@ using namespace std;
 //black -> ● 
 //white -> ○
 
-// class board
-// {
-// public: 
-    
-//     void arr_init();
-//     void block();
-//     void init(); //create the board
-// private:
-//     string arr[15][15]; //use a 2-D array to store data
 
-// };
 int flag =0;
 int col,row;
 string arr[15][15];
@@ -79,41 +69,37 @@ void player(int &flag,int col, int row, string arr[15][15]){
 }
 
 
-// void board::block() { //initialize board with blocks stopping user input
-//     int number = 20; //number of blocks, can be modified by user later
-//     srand(time(0)); //problem with random seed, random_shuffle not random
-//     vector<string> board_item;
-//     for (int i = 0; i<15; i++) {
-//         for (int j = 0; j<15; j++) {
-//             board_item.push_back(arr[i][j]);
-//         }
-//     }
-//     vector<string>::iterator itr = board_item.begin();
-//     for (int i = 0; i< number; i++) {
-//         *itr = "x";
-//         itr++;
-//     }
-//     random_shuffle(board_item.begin(), board_item.end());
+void block() { //initialize board with blocks stopping user input
+    int number = 20; //number of blocks, can be modified by user later
+    srand(time(0)); //problem with random seed, random_shuffle not random
+    vector<string> board_item;
+    for (int i = 0; i<15; i++) {
+        for (int j = 0; j<15; j++) {
+            board_item.push_back(arr[i][j]);
+        }
+    }
+    vector<string>::iterator itr = board_item.begin();
+    for (int i = 0; i< number; i++) {
+        *itr = "X";
+        itr++;
+    }
+    random_shuffle(board_item.begin(), board_item.end());
     
-//     for (int i = 0; i<15; i++) {
-//         for (int j = 0; j<15; j++) {
-//             arr[i][j] = board_item[i*15+j];
-//         }
-//     }
-// }
+    for (int i = 0; i<15; i++) {
+        for (int j = 0; j<15; j++) {
+            arr[i][j] = board_item[i*15+j];
+        }
+    }
+}
 
 int main() {
-    
-//     board gobang_board;
-//     gobang_board.arr_init();
-//     gobang_board.block();
-//     gobang_board.init();
 
     for (int i = 0; i<15; i++) {
         for (int j = 0; j<15; j++) {
             arr[i][j] = " "; //initially is blank or x(blocked), after input, change to ● (black) or ○ (white)
         }
     }
+    block();
     while (true){ // define a function which will return true if 5 in a line
         player(flag,col,row,arr);
         if (flag>=1){
