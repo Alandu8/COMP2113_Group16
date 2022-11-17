@@ -50,7 +50,7 @@ void print_board(){
 
 // this function is used to take in the user input and change the values inside arr
 // this function will avoid the case 1) user input is out of range 2)the user input is already occupied
-
+// the player will input row and then col
 void player(int &flag,int col, int row, string arr[15][15]){
   int check = 0;
   while (check == 0){
