@@ -38,7 +38,7 @@ void load_rule(){
 int flag = 0;
 int col,row;
 string arr[15][15];
-string save_adress;
+string save_address;
 
 void print_board(){
     cout << "     0   1   2   3   4   5   6   7   8   9  10  11  12  13  14" << endl;
@@ -64,7 +64,7 @@ void print_board(){
 // use for save board
 void save_board(string arr[15][15],string player1, string player2, int col, int row, bool game_signal,string save_address, int flag) {
     ofstream fout;
-    string save_address;
+    
 //     cout << "Please enter the address you want to save the board, it should end with .txt " << endl;
 //     cin >> save_address;     this has been added in the initialization function
     fout.open(save_address, ios::app);
