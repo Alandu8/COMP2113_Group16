@@ -35,9 +35,10 @@ void load_rule(){
 //white -> ○
 
 
-int flag =0;
+int flag = 0;
 int col,row;
 string arr[15][15];
+string save_adress;
 
 void print_board(){
     cout << "     0   1   2   3   4   5   6   7   8   9  10  11  12  13  14" << endl;
@@ -61,37 +62,66 @@ void print_board(){
 }
 
 // use for save board
-void save_board(string arr[15][15]) {
+void save_board(string arr[15][15],string player1, string player2, int col, int row, bool game_signal,string save_address, int flag) {
     ofstream fout;
     string save_address;
-    cout << "Please enter the address you want to save the board, it should end with .txt " << endl;
-    cin >> save_address;
-    fout.open(save_address);
+//     cout << "Please enter the address you want to save the board, it should end with .txt " << endl;
+//     cin >> save_address;     this has been added in the initialization function
+    fout.open(save_address, ios::app);
 
     if ( fout.fail() ) {
         cout << "Error in file opening!" << endl;
         exit(1);
     }
-
-    fout << "There is the final board:" << endl;
-    fout << "     0   1   2   3   4   5   6   7   8   9  10  11  12  13  14" << endl;
-    for (int i = 0; i<15; i++) {
-        fout << "  ·---+---+---+---+---+---+---+---+---+---+---+---+---+---+---·" << endl;
-        if (i >= 10) {
-            fout << i << '|';
-            for (int j = 0; j<15; j++) {
-                fout << ' ' << arr[i][j] << " |";
-            }
-        }
-        else {
-            fout << ' ' << i << '|';
-                for (int j = 0; j<15; j++) {
-                    fout << ' ' << arr[i][j] << " |";
-                }
-        }
-        fout << endl;
+	
+	else if (flag == 0){ // ensure this will only appear once 
+        time_t now = time(0);
+        char* dt = ctime(&now);
+        fout << "The board paused/ended on: " << dt << endl;
     }
-    fout << "  ·---+---+---+---+---+---+---+---+---+---+---+---+---+---+---·" << endl;
+//store the user input --------------------------------------------
+    if (flag%2==0 && row != -1){ // this means player1
+        fout << player1 << ": " << row << " " << col << endl;
+    }
+    else if (flag%2 == 1 && row != -1){ //this means player2
+        fout << player2 << ": " << row << " " << col << endl;
+    }
+// ----------------------------------------------------------------
+
+// this will print if someone is win --------------------------
+    if (game_signal == false){// this means the game is over
+        fout << endl;
+        fout << "There is the final board:" << endl;
+    }
+// ------------------------------------------------------------
+	
+//this will print at the end of file I/O
+	if (row == -1 || game_signal == false){
+		fout << "     0   1   2   3   4   5   6   7   8   9  10  11  12  13  14" << endl;
+		for (int i = 0; i<15; i++) {
+			fout << "  ·---+---+---+---+---+---+---+---+---+---+---+---+---+---+---·" << endl;
+			if (i >= 10) {
+				fout << i << '|';
+				for (int j = 0; j<15; j++) {
+					fout << ' ' << arr[i][j] << " |";
+				}
+			}
+			else {
+				fout << ' ' << i << '|';
+					for (int j = 0; j<15; j++) {
+						fout << ' ' << arr[i][j] << " |";
+					}
+			}
+			fout << endl;
+		}
+		fout << "  ·---+---+---+---+---+---+---+---+---+---+---+---+---+---+---·" << endl;
+		if (game_signal == false){
+            if (flag%2 == 0)
+                fout << player1 << " is the winner!" << endl;
+            else
+                fout << player2 << " is the winner!" << endl;
+		}
+	}
 
     fout.close();
 }
@@ -99,7 +129,7 @@ void save_board(string arr[15][15]) {
 // this function is used to take in the user input and change the values inside arr
 // this function will avoid the case 1) user input is out of range 2)the user input is already occupied
 // the player will input row and then col
-void player(int &flag,int col, int row, string arr[15][15],string player1,string &player2,bool &game_signal){
+void player(int &flag,int &col, int &row, string arr[15][15],string player1,string player2,bool &game_signal){
   int check = 0;
   while (check == 0){
     if (flag%2 +1 == 1) {
@@ -108,29 +138,33 @@ void player(int &flag,int col, int row, string arr[15][15],string player1,string
         cout << player2 << ": ";
     }
     
-    cin >> row >> col;
+    cin >> row;
     if (row == -1) {
-        game_signal = false;
+		
+        save_board(arr,player1,player2,col,row,game_signal,save_address,flag);
+        exit(1);
     }
-
+	cin >> col;
     if (col>=15 || row >=15){
-      cout << "Invalid Input, try again..." << endl;
+    	cout << "Invalid Input, try again..." << endl;
     }
     else if (arr[row][col]=="●" || arr[row][col]=="○" ||  arr[row][col]=="X"){
-      cout << "Invalid Input, try again..." << endl;
+    	cout << "Invalid Input, try again..." << endl;
     }
     else
-      check++;
+    	check++;
   }
 
   if (flag%2==0){
-    arr[row][col] = "●";
-    flag++;
+	  arr[row][col] = "●";
+	  save_board(arr,player1,player2,col,row,game_signal,save_address,flag);
+	  flag++;
   }
 
   else{
-    arr[row][col] = "○";
-    flag++;
+	  arr[row][col] = "○";
+	  save_board(arr,player1,player2,col,row,game_signal,save_address,flag);
+	  flag++;
   }
   cout << endl;
 }
@@ -226,8 +260,11 @@ int straight_five(string arr[15][15],int row,int col){
 bool success(string arr[15][15]) {
     for (int row = 0; row < 15; row++){
         for (int col = 0; col < 15; col++){
-            if (straight_five(arr, row, col) == 1) 
-              return false;
+            if (straight_five(arr, row, col) == 1){
+				row = -1;
+				return false;
+			}
+			
         }
     }
     return true;
@@ -243,9 +280,9 @@ void classic(string &player1,string &player2){
             system("clear");
         }
         print_board();
-	game_signal = success(arr);
+		game_signal = success(arr);
     }
-    save_board(arr);
+    save_board(arr,player1,player2,col,row,game_signal,save_address,flag);
 }
 
 
@@ -259,9 +296,9 @@ void blocked_mountains(string &player1,string &player2){
         if (flag>=1)
         system("clear");
         print_board();
-	game_signal = success(arr);
+		game_signal = success(arr);
     }
-    save_board(arr);
+    save_board(arr,player1,player2,col,row,game_signal,save_address,flag);
 }
 
 void wild_parties(string &player1,string &player2){
@@ -282,6 +319,8 @@ string initialize(string &player1,string &player2){
     if (indicator == "y"){
         load_rule();
     } 
+	cout << "Please enter the address you want to save the board, it should end with .txt" << endl;
+    cin >> save_address;
     cout <<  "What's Player1's name? Please enter here:" << endl;
     cin >> player1;
     cout <<  "What's Player2's name? Please enter here:" << endl;
