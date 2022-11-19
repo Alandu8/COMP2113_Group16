@@ -137,14 +137,32 @@ void player(int &flag,int &col, int &row, string arr[15][15],string player1,stri
     } else {
         cout << player2 << ": ";
     }
-    
+	  
+    // fix the wrong type of input lead to infinite loop
     cin >> row;
+	while (cin.fail() == 1){
+		cin.clear();
+		cin.ignore();
+		cout << "Invalid Row Input, try again..." << endl;
+		cin >> row;
+	}
+	// fixed the infinite loop problem ----------------------------------
+	  
     if (row == -1) {
 		
         save_board(arr,player1,player2,col,row,game_signal,save_address,flag);
         exit(1);
-    }
+    } 
+	// fix infinite loop -----------------------------------------------------
 	cin >> col;
+	while (cin.fail() == 1){
+		cin.clear();
+		cin.ignore();
+		cout << "Invalid Col Input, try again..." << endl;
+		cin >> col;
+	}
+	// fix infinite loop ------------------------------------------------------
+	  
     if (col>=15 || row >=15){
     	cout << "Invalid Input, try again..." << endl;
     }
@@ -168,16 +186,6 @@ void player(int &flag,int &col, int &row, string arr[15][15],string player1,stri
   }
   cout << endl;
 }
-//11.17 block has problems to solve mode 1 is not working 
-// void mode1(){ // version 1
-//   block(); 
-//   while (true){
-//     player(flag,col,row,arr);
-//     if (flag>=1)
-//       system("clear");
-//     print_board();
-//   }
-// }
 
 void block() { //initialize board with blocks stopping user input
     int number = 20; //number of blocks, can be modified by user later
