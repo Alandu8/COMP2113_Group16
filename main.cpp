@@ -80,11 +80,16 @@ void save_board(string arr[15][15],string player1, string player2, int col, int 
         fout << "The board paused/ended on: " << dt << endl;
     }
 //store the user input --------------------------------------------
+	if (game_signal == false)
+		flag-=1;
+	
     if (flag%2==0 && row != -1){ // this means player1
-        fout << player1 << ": " << row << " " << col << endl;
+		if (game_signal == true)
+        	fout << player1 << ": " << row << " " << col << endl;
     }
     else if (flag%2 == 1 && row != -1){ //this means player2
-        fout << player2 << ": " << row << " " << col << endl;
+		if (game_signal == true)
+        	fout << player2 << ": " << row << " " << col << endl;
     }
 // ----------------------------------------------------------------
 
@@ -281,6 +286,7 @@ bool success(string arr[15][15]) {
 
 void classic(string &player1,string &player2){ 
     bool game_signal = true;
+	print_board();
     cout <<  "Game starts! You may interrupt the game by entering [-1]" << endl;
     while (game_signal == true){
         player(flag,col,row,arr,player1,player2,game_signal);
