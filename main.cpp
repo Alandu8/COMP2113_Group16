@@ -133,7 +133,7 @@ void save_board(string arr[15][15],string player1, string player2, int col, int 
 
 // this function is used to take in the user input and change the values inside arr
 // this function will avoid the case 1) user input is out of range 2)the user input is already occupied
-// the player will input row and then col
+// the player will input row and then col, flag is used todetermine it is player 1 or player 2 
 void player(int &flag,int &col, int &row, string arr[15][15],string player1,string player2,bool &game_signal){
   int check = 0;
   while (check == 0){
@@ -151,14 +151,13 @@ void player(int &flag,int &col, int &row, string arr[15][15],string player1,stri
 		cout << "Invalid Row Input, try again..." << endl;
 		cin >> row;
 	}
-	// fixed the infinite loop problem ----------------------------------
-	  
+	
     if (row == -1) {
 		
         save_board(arr,player1,player2,col,row,game_signal,save_address,flag);
         exit(1);
     } 
-	// fix infinite loop -----------------------------------------------------
+
 	cin >> col;
 	while (cin.fail() == 1){
 		cin.clear();
@@ -175,7 +174,7 @@ void player(int &flag,int &col, int &row, string arr[15][15],string player1,stri
     	cout << "Invalid Input, try again..." << endl;
     }
     else
-    	check++;
+    	check++; // if the user input is valid then the while loop will end
   }
 
   if (flag%2==0){
@@ -277,7 +276,6 @@ bool success(string arr[15][15]) {
 				row = -1;
 				return false;
 			}
-			
         }
     }
     return true;
