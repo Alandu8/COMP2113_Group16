@@ -137,11 +137,12 @@ void save_board(string arr[15][15],string player1, string player2, int col, int 
 void player(int &flag,int &col, int &row, string arr[15][15],string player1,string player2,bool &game_signal){
   int check = 0;
   while (check == 0){
-    if (flag%2 +1 == 1) {
-        cout << player1 << ": ";
-    } else {
-        cout << player2 << ": ";
-    }
+	  if (flag%2 +1 == 1) {
+		  cout << player1 << ": ";
+	  } 
+	  else {
+          cout << player2 << ": ";
+      }
 	  
     // fix the wrong type of input lead to infinite loop
     cin >> row;
