@@ -8,7 +8,6 @@
 #include <fstream>
 
 using namespace std;
-//  11
 
 // load rules of our game
 void load_rule(){
