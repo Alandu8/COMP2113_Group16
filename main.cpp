@@ -8,7 +8,7 @@
 #include <fstream>
 
 using namespace std;
-
+//  11
 
 // load rules of our game
 void load_rule(){
@@ -154,7 +154,6 @@ void player(int &flag,int &col, int &row, string arr[15][15],string player1,stri
 	}
 	
     if (row == -1) {
-		
         save_board(arr,player1,player2,col,row,game_signal,save_address,flag);
         exit(1);
     } 
@@ -177,7 +176,11 @@ void player(int &flag,int &col, int &row, string arr[15][15],string player1,stri
     else
     	check++; // if the user input is valid then the while loop will end
   }
+/* above code has figured different situations of user input
 
+----------------------------------------------------------------
+
+code below changes the value of the 2D array (board)*/
   if (flag%2==0){
 	  arr[row][col] = "●";
 	  save_board(arr,player1,player2,col,row,game_signal,save_address,flag);
