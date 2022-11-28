@@ -8,7 +8,6 @@
 #include <fstream>
 
 using namespace std;
-//  11
 
 // load rules of our game
 void load_rule(){
@@ -31,7 +30,7 @@ void load_rule(){
 }
 
 // create a board class to manipulate the chess board
-//black -> ● ◉
+//black -> ● 
 //white -> ○
 
 
@@ -104,10 +103,17 @@ void save_board(string arr[15][15],string player1, string player2, int col, int 
         fout << endl;
         fout << "There is the final board:" << endl;
     }
+
 // ------------------------------------------------------------
 
 //this will print at the end of file I/O
 	if (row == -1 || game_signal == false){
+        // if the game is paused
+        if (row == -1){
+            fout << endl;
+            fout << "There was " << flag << " moves." << endl;
+            fout << "The current board..." << endl;
+        }
 		fout << "     0   1   2   3   4   5   6   7   8   9  10  11  12  13  14" << endl;
 		for (int i = 0; i<15; i++) {
 			fout << "  ·---+---+---+---+---+---+---+---+---+---+---+---+---+---+---·" << endl;
@@ -296,7 +302,7 @@ void classic(string &player1,string &player2){
     bool game_signal = true;
 	print_board();
     cout <<  "Game starts! You may interrupt the game by entering [-1]" << endl;
-    while (game_signal == true){
+    while (success(arr)){
         player(flag,col,row,arr,player1,player2,game_signal);
         if (flag>=1){
             system("clear");
@@ -311,7 +317,22 @@ void classic(string &player1,string &player2){
         }
     }
     game_signal = success(arr);
+    if (game_signal == false){
+        if (flag%2 == 0) 
+        /*
+        after the success turns false 
+        we need to flag -= 1 
+        to make sure flag%2==0 is player1
+        */
+                cout << player2 << " is the winner!" << endl;
+            else
+                cout << player1 << " is the winner!" << endl;
+    }
     save_board(arr,player1,player2,col,row,game_signal,save_address,flag);
+    if (flag == 15*15-1){ // this is the case that the board is full and no one win
+        cout << "This is a tie game, game over..." << endl;
+        exit(1);
+    }
 }
 
 
@@ -320,7 +341,7 @@ void blocked_mountains(string &player1,string &player2){
     block();
     print_board();
     cout <<  "Game starts! You may interrupt the game by entering [-1]" << endl;
-    while (game_signal == true){
+    while (success(arr)){
         player(flag,col,row,arr,player1,player2,game_signal);
         if (flag>=1)
         system("clear");
@@ -334,7 +355,23 @@ void blocked_mountains(string &player1,string &player2){
         }
     }
     game_signal = success(arr);
+    if (game_signal == false){
+        if (flag%2 == 0) 
+        /*
+        after the success turns false 
+        we need to flag -= 1 
+        to make sure flag%2==0 is player1
+        */
+                cout << player2 << " is the winner!" << endl;
+            else
+                cout << player1 << " is the winner!" << endl;
+    }
     save_board(arr,player1,player2,col,row,game_signal,save_address,flag);
+    if (flag == 15*15-1){ // this is the case that the board is full and no one win
+        cout << "This is a tie game, game over..." << endl;
+        exit(1);
+    }
+    
 }
 
 void wild_parties(string &player1,string &player2){
