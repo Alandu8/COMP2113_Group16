@@ -1,5 +1,7 @@
 The board paused/ended on: Mon Nov 28 17:01:33 2022
 
+mode name 
+
 player1: 2 3
 player2: 3 4
 ...
