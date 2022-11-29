@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <fstream>
 
+
 using namespace std;
 
 // load rules of our game
@@ -206,10 +207,12 @@ code below changes the value of the 2D array (board)*/
   }
   cout << endl;
 }
+int Rand(int i) {return rand()%i;}
 
 void block() { //initialize board with blocks stopping user input
+    
     int number = 20; //number of blocks, can be modified by user later
-    srand(time(0)); //problem with random seed, random_shuffle not random
+    srand ( unsigned ( time(0) ) );//problem with random seed, random_shuffle not random
     vector<string> board_item;
     for (int i = 0; i<15; i++) {
         for (int j = 0; j<15; j++) {
@@ -221,7 +224,7 @@ void block() { //initialize board with blocks stopping user input
         *itr = "X";
         itr++;
     }
-    random_shuffle(board_item.begin(), board_item.end());
+    random_shuffle(board_item.begin(), board_item.end(), Rand);
 
     for (int i = 0; i<15; i++) {
         for (int j = 0; j<15; j++) {
@@ -407,10 +410,10 @@ void random_convert(){
     //covert the piece    
     if (if_convert == 0){
         if (arr[row][col] == "○"){
-            arr[row][col] == "●";
+            arr[row][col] = "●";
         }
         if (arr[row][col] == "●"){
-            arr[row][col] == "○";
+            arr[row][col] = "○";
         }
     }
 }
