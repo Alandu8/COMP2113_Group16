@@ -15,11 +15,11 @@ void load_rule(){
 	fin.open("instruction.txt"); // need to be written
 
     if ( fin.fail() ){
-		cout << "Error in file opening!" 
+		cout << "Error in file opening!"
 			<< endl;
  		exit(1);
  	}
-    
+
     string line;
 
 	while ( getline(fin, line) ) {
@@ -30,7 +30,7 @@ void load_rule(){
 }
 
 // create a board class to manipulate the chess board
-//black -> ● ◉
+//black -> ● 
 //white -> ○
 
 
@@ -63,7 +63,7 @@ void print_board(){
 // use for save board
 void save_board(string arr[15][15],string player1, string player2, int col, int row, bool game_signal,string save_address, int flag) {
     ofstream fout;
-    
+
 //     cout << "Please enter the address you want to save the board, it should end with .txt " << endl;
 //     cin >> save_address;     this has been added in the initialization function
     fout.open(save_address, ios::app);
@@ -72,16 +72,22 @@ void save_board(string arr[15][15],string player1, string player2, int col, int 
         cout << "Error in file opening!" << endl;
         exit(1);
     }
-	
-	else if (flag == 0){ // ensure this will only appear once 
+
+	else if (flag == 0){ // ensure this will only appear once
         time_t now = time(0);
         char* dt = ctime(&now);
         fout << "The board paused/ended on: " << dt << endl;
     }
 //store the user input --------------------------------------------
+    if (flag == 15*15-1){ // this is the case that the board is full and no one win
+        fout << "This is a tie game, game over..." << endl;
+        fout.close();
+        exit(1);
+    }
+    
 	if (game_signal == false)
 		flag-=1;
-	
+
     if (flag%2==0 && row != -1){ // this means player1
 		if (game_signal == true)
         	fout << player1 << ": " << row << " " << col << endl;
@@ -97,10 +103,17 @@ void save_board(string arr[15][15],string player1, string player2, int col, int 
         fout << endl;
         fout << "There is the final board:" << endl;
     }
+
 // ------------------------------------------------------------
-	
+
 //this will print at the end of file I/O
 	if (row == -1 || game_signal == false){
+        // if the game is paused
+        if (row == -1){
+            fout << endl;
+            fout << "There was " << flag << " moves." << endl;
+            fout << "The current board..." << endl;
+        }
 		fout << "     0   1   2   3   4   5   6   7   8   9  10  11  12  13  14" << endl;
 		for (int i = 0; i<15; i++) {
 			fout << "  ·---+---+---+---+---+---+---+---+---+---+---+---+---+---+---·" << endl;
@@ -132,17 +145,17 @@ void save_board(string arr[15][15],string player1, string player2, int col, int 
 
 // this function is used to take in the user input and change the values inside arr
 // this function will avoid the case 1) user input is out of range 2)the user input is already occupied
-// the player will input row and then col, flag is used todetermine it is player 1 or player 2 
+// the player will input row and then col, flag is used todetermine it is player 1 or player 2
 void player(int &flag,int &col, int &row, string arr[15][15],string player1,string player2,bool &game_signal){
   int check = 0;
   while (check == 0){
 	  if (flag%2 +1 == 1) {
 		  cout << player1 << ": ";
-	  } 
+	  }
 	  else {
           cout << player2 << ": ";
       }
-	  
+
     // fix the wrong type of input lead to infinite loop
     cin >> row;
 	while (cin.fail() == 1){
@@ -151,11 +164,11 @@ void player(int &flag,int &col, int &row, string arr[15][15],string player1,stri
 		cout << "Invalid Row Input, try again..." << endl;
 		cin >> row;
 	}
-	
+
     if (row == -1) {
         save_board(arr,player1,player2,col,row,game_signal,save_address,flag);
         exit(1);
-    } 
+    }
 
 	cin >> col;
 	while (cin.fail() == 1){
@@ -165,7 +178,7 @@ void player(int &flag,int &col, int &row, string arr[15][15],string player1,stri
 		cin >> col;
 	}
 	// fix infinite loop ------------------------------------------------------
-	  
+
     if (col>=15 || row >=15){
     	cout << "Invalid Input, try again..." << endl;
     }
@@ -209,7 +222,7 @@ void block() { //initialize board with blocks stopping user input
         itr++;
     }
     random_shuffle(board_item.begin(), board_item.end());
-    
+
     for (int i = 0; i<15; i++) {
         for (int j = 0; j<15; j++) {
             arr[i][j] = board_item[i*15+j];
@@ -285,19 +298,41 @@ bool success(string arr[15][15]) {
 }
 
 
-void classic(string &player1,string &player2){ 
+void classic(string &player1,string &player2){
     bool game_signal = true;
 	print_board();
     cout <<  "Game starts! You may interrupt the game by entering [-1]" << endl;
-    while (game_signal == true){
+    while (success(arr)){
         player(flag,col,row,arr,player1,player2,game_signal);
         if (flag>=1){
             system("clear");
         }
         print_board();
 		game_signal = success(arr);
+        if (game_signal){ // this means the game_signal is still true
+            if (flag == 15*15-1){
+                cout << "this is a tie game, game is finished." << endl;
+                game_signal = false; //change the value to end the while loop
+            }
+        }
+    }
+    game_signal = success(arr);
+    if (game_signal == false){
+        if (flag%2 == 0) 
+        /*
+        after the success turns false 
+        we need to flag -= 1 
+        to make sure flag%2==0 is player1
+        */
+                cout << player2 << " is the winner!" << endl;
+            else
+                cout << player1 << " is the winner!" << endl;
     }
     save_board(arr,player1,player2,col,row,game_signal,save_address,flag);
+    if (flag == 15*15-1){ // this is the case that the board is full and no one win
+        cout << "This is a tie game, game over..." << endl;
+        exit(1);
+    }
 }
 
 
@@ -306,14 +341,37 @@ void blocked_mountains(string &player1,string &player2){
     block();
     print_board();
     cout <<  "Game starts! You may interrupt the game by entering [-1]" << endl;
-    while (game_signal == true){
+    while (success(arr)){
         player(flag,col,row,arr,player1,player2,game_signal);
         if (flag>=1)
         system("clear");
         print_board();
 		game_signal = success(arr);
+        if (game_signal){ // this means the game_signal is still true
+            if (flag ==15*15-1){
+                cout << "this is a tie game, game is finished." << endl;
+                game_signal = false;
+            }
+        }
+    }
+    game_signal = success(arr);
+    if (game_signal == false){
+        if (flag%2 == 0) 
+        /*
+        after the success turns false 
+        we need to flag -= 1 
+        to make sure flag%2==0 is player1
+        */
+                cout << player2 << " is the winner!" << endl;
+            else
+                cout << player1 << " is the winner!" << endl;
     }
     save_board(arr,player1,player2,col,row,game_signal,save_address,flag);
+    if (flag == 15*15-1){ // this is the case that the board is full and no one win
+        cout << "This is a tie game, game over..." << endl;
+        exit(1);
+    }
+    
 }
 
 void wild_parties(string &player1,string &player2){
@@ -333,7 +391,7 @@ string initialize(string &player1,string &player2){
     cin >> indicator;
     if (indicator == "y"){
         load_rule();
-    } 
+    }
 	cout << "Please enter the address you want to save the board, it should end with .txt" << endl;
     cin >> save_address;
     cout <<  "What's Player1's name? Please enter here:" << endl;
@@ -347,7 +405,7 @@ string initialize(string &player1,string &player2){
     cin >> indicator;
     if (indicator == "y"){
         load_rule();
-    } 
+    }
     return indicator;
 
 }
@@ -362,7 +420,7 @@ int main() {
     	}
   	}
     // starting game
-	
+
     if (mode_indicator == "a"){
         cout << "You have chosen classic mode" << endl;
         classic(player1,player2);
