@@ -313,7 +313,7 @@ bool success(string arr[15][15]) {
 void classic(string &player1,string &player2){
     bool game_signal = true;
 	print_board();
-    cout <<  "Game starts! You may interrupt the game by entering [-1]" << endl;
+    
     while (success(arr)){
         player(flag,col,row,arr,player1,player2,game_signal);
         if (flag>=1){
@@ -352,7 +352,7 @@ void blocked_mountains(string &player1,string &player2){
     bool game_signal = true;
     block();
     print_board();
-    cout <<  "Game starts! You may interrupt the game by entering [-1]" << endl;
+    
     while (success(arr)){
         player(flag,col,row,arr,player1,player2,game_signal);
         if (flag>=1)
@@ -502,13 +502,13 @@ string initialize(string &player1,string &player2){
 
 }
 
-void file_input(string fn,string player1, string player2){
+void file_input(string fn,string &player1, string &player2,char &mode,string &save_address){
     ifstream fin;
     fin.open(fn);
     int num_line = 0,row,col,p1=0,p2=0;
     string line;
-    char mode;
     int count = 0;
+    save_address = fn;
     // line 3 gives the mode
     while (getline(fin,line)){
         if (line.substr(0,9) == "There was")
@@ -547,7 +547,7 @@ void file_input(string fn,string player1, string player2){
                 col = line[p1+4]-48;
                 arr[row][col] = "●";
                 flag++;
-                cout << row << " " << col << endl;
+                //cout << row << " " << col << endl;
             }
             
             if (num_line%2==0){
@@ -557,11 +557,10 @@ void file_input(string fn,string player1, string player2){
                 //arr[row][col] = "○";
                 flag++;
                 arr[row][col] = "○";
-                cout << row << " " << col << endl;
+                //cout << row << " " << col << endl;
             }
         } 
     }
-    print_board();
 }
 
 
@@ -580,16 +579,19 @@ int main(int argc, char** argv) {
         if (mode_indicator == "a"){
             mode = 'a';
             cout << "You have chosen classic mode" << endl;
+            cout <<  "Game starts! You may interrupt the game by entering [-1]" << endl;
             classic(player1,player2);
         } else {
             if (mode_indicator == "b"){
                 mode = 'b';
                 cout << "You have chosen blocked mode" << endl;
+                cout <<  "Game starts! You may interrupt the game by entering [-1]" << endl;
                 blocked_mountains(player1,player2);
             } else {
                 if (mode_indicator == "c"){
                     mode = 'c';
                     cout << "You have chosen wild mode, let's go crazzzy!" << endl;
+                    cout <<  "Game starts! You may interrupt the game by entering [-1]" << endl;
                     wild_parties(player1,player2);
                 } else {
                     cout << "Error in game mode indicator! Please re-start" << endl;
@@ -603,65 +605,15 @@ int main(int argc, char** argv) {
         string fn = argv[1];
         // file_input(fn,player1,player2,arr,flag);
         // cout << player1 << " " << player2 << " " << flag << endl;
-        file_input(fn,player1,player2);
-        // ifstream fin;
-        // fin.open(fn);
-        // int num_line = 0,row,col,p1=0,p2=0;
-        // string line;
-        // char mode;
-        // int count = 0;
-        // // line 3 gives the mode
-        // while (getline(fin,line)){
-        //     if (line.substr(0,9) == "There was")
-        //         break;
-        //     num_line++;
-        //     if (num_line == 3){ // this line tells the mode
-        //         if (line[0] == 'C'){ // the classic mode 
-        //             mode = 'a';
-        //         }
-        //         else if (line[0] == 'B') {// the second mode
-        //             mode = 'b';
-        //         }
-        //         else if (line[0] == 'W'){// the third mode
-        //             mode = 'c';
-        //         }
-        //     }
-        //     if (num_line >= 5){ //from this line it is the user input 
-        //         //get the name of the player1
-        //         if (num_line == 5){
-        //             while (line[p1]!=':'){
-        //                 player1+=line[p1];
-        //                 p1++;
-        //             }
-        //         } // i store the length of the name for player 1
-        //         // i + 2 and i + 4 is the row and col input 
-        //         else if (num_line == 6){
-        //             while (line[p2]!=':'){
-        //                 player2+=line[p2];
-        //                 p2++;
-        //             }
-        //         } // j + 2 and j + 4 is the row and col input  
-        //         // odd line is the player1 and the even line is the player2
-        //         if (num_line%2==1){
-        //             //this means the player1 input 
-        //             row = line[p1+2]-48;
-        //             col = line[p1+4]-48;
-        //             arr[row][col] = "●";
-        //             flag++;
-        //             cout << row << " " << col << endl;
-        //         }
-                
-        //         if (num_line%2==0){
-        //             // this means the player2 input 
-        //             row = line[p2+2]-48;
-        //             col = line[p2+4]-48;
-        //            //arr[row][col] = "○";
-        //             flag++;
-        //             arr[row][col] = "○";
-        //             cout << row << " " << col << endl;
-        //         }
-        //     } 
-        // }
-        // print_board();
+        file_input(fn,player1,player2,mode,save_address);
+        if (mode == 'a'){
+            classic(player1,player2);
+        }
+        else if (mode == 'b'){
+            blocked_mountains(player1,player2);
+        }
+        else if (mode == 'c'){
+            wild_parties(player1,player2);
+        }
     }
 }
