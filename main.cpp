@@ -79,13 +79,15 @@ void save_board(string arr[15][15],string player1, string player2, int col, int 
         time_t now = time(0);
         char* dt = ctime(&now);
         fout << "The board paused/ended on: " << dt << endl;
+        if (mode == 'a')
+            fout << "Classic" << endl;
+        else if (mode == 'b')
+            fout << "Blocked Mountain" << endl;
+        else if (mode == 'c')
+            fout << "Wild Party" << endl;
+        fout << endl;
     }
-    if (mode == 'a')
-        fout << "Classic" << endl;
-    else if (mode == 'b')
-        fout << "Blocked Mountain" << endl;
-    else if (mode == 'c')
-        fout << "Wild Party" << endl;
+    
 
 //store the user input --------------------------------------------
     if (flag == 15*15-1){ // this is the case that the board is full and no one win
@@ -175,7 +177,7 @@ void player(int &flag,int &col, int &row, string arr[15][15],string player1,stri
 	}
 
     if (row == -1) {
-        save_board(arr,player1,player2,col,row,game_signal,save_address,flag);
+        save_board(arr,player1,player2,col,row,game_signal,save_address,flag,mode);
         exit(1);
     }
 
@@ -204,13 +206,13 @@ void player(int &flag,int &col, int &row, string arr[15][15],string player1,stri
 code below changes the value of the 2D array (board)*/
   if (flag%2==0){
 	  arr[row][col] = "●";
-	  save_board(arr,player1,player2,col,row,game_signal,save_address,flag);
+	  save_board(arr,player1,player2,col,row,game_signal,save_address,flag,mode);
 	  flag++;
   }
 
   else{
 	  arr[row][col] = "○";
-	  save_board(arr,player1,player2,col,row,game_signal,save_address,flag);
+	  save_board(arr,player1,player2,col,row,game_signal,save_address,flag,mode);
 	  flag++;
   }
   cout << endl;
@@ -340,7 +342,7 @@ void classic(string &player1,string &player2){
             else
                 cout << player1 << " is the winner!" << endl;
     }
-    save_board(arr,player1,player2,col,row,game_signal,save_address,flag);
+    save_board(arr,player1,player2,col,row,game_signal,save_address,flag,mode);
     if (flag == 15*15-1){ // this is the case that the board is full and no one win
         cout << "This is a tie game, game over..." << endl;
         exit(1);
@@ -378,7 +380,7 @@ void blocked_mountains(string &player1,string &player2){
             else
                 cout << player1 << " is the winner!" << endl;
     }
-    save_board(arr,player1,player2,col,row,game_signal,save_address,flag);
+    save_board(arr,player1,player2,col,row,game_signal,save_address,flag,mode);
     if (flag == 15*15-1){ // this is the case that the board is full and no one win
         cout << "This is a tie game, game over..." << endl;
         exit(1);
