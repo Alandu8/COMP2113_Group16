@@ -6,7 +6,7 @@
 #include <iterator>
 #include <algorithm>
 #include <fstream>
-
+#include <sstream>
 
 using namespace std;
 
@@ -111,7 +111,6 @@ void save_board(string arr[15][15],string player1, string player2, int col, int 
 
 // this will print if someone is win --------------------------
     if (game_signal == false){// this means the game is over
-        fout << endl;
         fout << "There is the final board:" << endl;
     }
 
@@ -121,7 +120,6 @@ void save_board(string arr[15][15],string player1, string player2, int col, int 
 	if (row == -1 || game_signal == false){
         // if the game is paused
         if (row == -1){
-            fout << endl;
             fout << "There was " << flag << " moves." << endl;
             fout << "The current board..." << endl;
         }
@@ -504,35 +502,166 @@ string initialize(string &player1,string &player2){
 
 }
 
-int main() {
-    string player1,player2,mode_indicator;
-    mode_indicator = initialize(player1,player2);
-	//need to assign " " to arr[i][j]
-	for (int i = 0; i<15; i++) {
-    	for (int j = 0; j<15; j++) {
-        	arr[i][j] = " "; //after input, change to ● (black) or ○ (white)
-    	}
-  	}
-    // starting game
-
-    if (mode_indicator == "a"){
-        mode = 'a';
-        cout << "You have chosen classic mode" << endl;
-        classic(player1,player2);
-    } else {
-        if (mode_indicator == "b"){
-            mode = 'b';
-            cout << "You have chosen blocked mode" << endl;
-            blocked_mountains(player1,player2);
-        } else {
-            if (mode_indicator == "c"){
+void file_input(string fn,string player1, string player2){
+    ifstream fin;
+    fin.open(fn);
+    int num_line = 0,row,col,p1=0,p2=0;
+    string line;
+    char mode;
+    int count = 0;
+    // line 3 gives the mode
+    while (getline(fin,line)){
+        if (line.substr(0,9) == "There was")
+            break;
+        num_line++;
+        if (num_line == 3){ // this line tells the mode
+            if (line[0] == 'C'){ // the classic mode 
+                mode = 'a';
+            }
+            else if (line[0] == 'B') {// the second mode
+                mode = 'b';
+            }
+            else if (line[0] == 'W'){// the third mode
                 mode = 'c';
-                cout << "You have chosen wild mode, let's go crazzzy!" << endl;
-                wild_parties(player1,player2);
-            } else {
-                cout << "Error in game mode indicator! Please re-start" << endl;
-                exit(1);
             }
         }
+        if (num_line >= 5){ //from this line it is the user input 
+            //get the name of the player1
+            if (num_line == 5){
+                while (line[p1]!=':'){
+                    player1+=line[p1];
+                    p1++;
+                }
+            } // i store the length of the name for player 1
+            // i + 2 and i + 4 is the row and col input 
+            else if (num_line == 6){
+                while (line[p2]!=':'){
+                    player2+=line[p2];
+                    p2++;
+                }
+            } // j + 2 and j + 4 is the row and col input  
+            // odd line is the player1 and the even line is the player2
+            if (num_line%2==1){
+                //this means the player1 input 
+                row = line[p1+2]-48;
+                col = line[p1+4]-48;
+                arr[row][col] = "●";
+                flag++;
+                cout << row << " " << col << endl;
+            }
+            
+            if (num_line%2==0){
+                // this means the player2 input 
+                row = line[p2+2]-48;
+                col = line[p2+4]-48;
+                //arr[row][col] = "○";
+                flag++;
+                arr[row][col] = "○";
+                cout << row << " " << col << endl;
+            }
+        } 
+    }
+    print_board();
+}
+
+
+int main(int argc, char** argv) {
+    for (int i = 0; i<15; i++) {
+            for (int j = 0; j<15; j++) {
+                arr[i][j] = " "; //after input, change to ● (black) or ○ (white)
+            }
+    }
+    string player1,player2,mode_indicator;
+    if (argc<2){ //there is no file input if argc < 2
+        mode_indicator = initialize(player1,player2);
+
+        // starting game
+
+        if (mode_indicator == "a"){
+            mode = 'a';
+            cout << "You have chosen classic mode" << endl;
+            classic(player1,player2);
+        } else {
+            if (mode_indicator == "b"){
+                mode = 'b';
+                cout << "You have chosen blocked mode" << endl;
+                blocked_mountains(player1,player2);
+            } else {
+                if (mode_indicator == "c"){
+                    mode = 'c';
+                    cout << "You have chosen wild mode, let's go crazzzy!" << endl;
+                    wild_parties(player1,player2);
+                } else {
+                    cout << "Error in game mode indicator! Please re-start" << endl;
+                    exit(1);
+                }
+            }
+        }
+    }
+    else { 
+        // there is file input 
+        string fn = argv[1];
+        // file_input(fn,player1,player2,arr,flag);
+        // cout << player1 << " " << player2 << " " << flag << endl;
+        file_input(fn,player1,player2);
+        // ifstream fin;
+        // fin.open(fn);
+        // int num_line = 0,row,col,p1=0,p2=0;
+        // string line;
+        // char mode;
+        // int count = 0;
+        // // line 3 gives the mode
+        // while (getline(fin,line)){
+        //     if (line.substr(0,9) == "There was")
+        //         break;
+        //     num_line++;
+        //     if (num_line == 3){ // this line tells the mode
+        //         if (line[0] == 'C'){ // the classic mode 
+        //             mode = 'a';
+        //         }
+        //         else if (line[0] == 'B') {// the second mode
+        //             mode = 'b';
+        //         }
+        //         else if (line[0] == 'W'){// the third mode
+        //             mode = 'c';
+        //         }
+        //     }
+        //     if (num_line >= 5){ //from this line it is the user input 
+        //         //get the name of the player1
+        //         if (num_line == 5){
+        //             while (line[p1]!=':'){
+        //                 player1+=line[p1];
+        //                 p1++;
+        //             }
+        //         } // i store the length of the name for player 1
+        //         // i + 2 and i + 4 is the row and col input 
+        //         else if (num_line == 6){
+        //             while (line[p2]!=':'){
+        //                 player2+=line[p2];
+        //                 p2++;
+        //             }
+        //         } // j + 2 and j + 4 is the row and col input  
+        //         // odd line is the player1 and the even line is the player2
+        //         if (num_line%2==1){
+        //             //this means the player1 input 
+        //             row = line[p1+2]-48;
+        //             col = line[p1+4]-48;
+        //             arr[row][col] = "●";
+        //             flag++;
+        //             cout << row << " " << col << endl;
+        //         }
+                
+        //         if (num_line%2==0){
+        //             // this means the player2 input 
+        //             row = line[p2+2]-48;
+        //             col = line[p2+4]-48;
+        //            //arr[row][col] = "○";
+        //             flag++;
+        //             arr[row][col] = "○";
+        //             cout << row << " " << col << endl;
+        //         }
+        //     } 
+        // }
+        // print_board();
     }
 }
