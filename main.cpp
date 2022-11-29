@@ -147,14 +147,14 @@ void save_board(string arr[15][15],string player1, string player2, int col, int 
 // this function will avoid the case 1) user input is out of range 2)the user input is already occupied
 // the player will input row and then col, flag is used todetermine it is player 1 or player 2
 void player(int &flag,int &col, int &row, string arr[15][15],string player1,string player2,bool &game_signal){
-  int check = 0;
-  while (check == 0){
-	  if (flag%2 +1 == 1) {
-		  cout << player1 << ": ";
-	  }
-	  else {
-          cout << player2 << ": ";
-      }
+    int check = 0;
+    while (check == 0){
+        if (flag%2 +1 == 1) {
+            cout << player1 << ": ";
+        }
+        else {
+            cout << player2 << ": ";
+        }
 
     // fix the wrong type of input lead to infinite loop
     cin >> row;
@@ -230,56 +230,57 @@ void block() { //initialize board with blocks stopping user input
     }
 }
 
-
-
 int straight_five(string arr[15][15],int row,int col){
-  //row success
+    //row
     for(int i = 0; i < 5; i++){
-        if(col - i >= 0 && col - i + 4 < 15){
-          if (arr[row][col-i] == arr[row][col-i+1] &&
-          arr[row][col-i] == arr[row][col-i+2] &&
-          arr[row][col-i] == arr[row][col-i+3] &&
-          arr[row][col-i] == arr[row][col-i+4] &&
-          arr[row][col-i] != " ")
-            return 1;
-        }
+        if(col - i >= 0 &&
+        col - i + 4 < 15 &&
+        arr[row][col-i] != " " &&
+        arr[row][col-i] != "X" &&
+        arr[row][col-i] == arr[row][col-i+1] &&
+        arr[row][col-i] == arr[row][col-i+2] &&
+        arr[row][col-i] == arr[row][col-i+3] &&
+        arr[row][col-i] == arr[row][col-i+4]){return 1;}
     }
 
-  //column success
+    //column
     for(int i = 0; i < 5; i++){
-        if(row - i >= 0 && row - i + 4 < 15){
-          if (arr[row-i][col] == arr[row-i+1][col] &&
-          arr[row-i][col] == arr[row-i+2][col] &&
-          arr[row-i][col] == arr[row-i+3][col] &&
-          arr[row-i][col] == arr[row-i+4][col] &&
-          arr[row-i][col] != " ")
-            return 1;
-        }
-
+        if(row - i >= 0 &&
+        row - i + 4 < 15 &&
+        arr[row-i][col] != " " &&
+        arr[row-i][col] != "X" &&
+        arr[row-i][col] == arr[row-i+1][col] &&
+        arr[row-i][col] == arr[row-i+2][col] &&
+        arr[row-i][col] == arr[row-i+3][col] &&
+        arr[row-i][col] == arr[row-i+4][col]){return 1;}
     }
 
-  // diaginal success (ascending)
+    // diaginal (lower left to upper right)
     for(int i = 0; i < 5; i++){
-        if(row + i < 15 && row + i - 4 >= 0 && col - i >= 0 && col - i + 4 < 15){
-          if (arr[row+i][col-i] == arr[row+i-1][col-i+1] &&
-          arr[row+i][col-i] == arr[row+i-2][col-i+2] &&
-          arr[row+i][col-i] == arr[row+i-3][col-i+3] &&
-          arr[row+i][col-i] == arr[row+i-4][col-i+4] &&
-          arr[row+i][col-i]!=" ")
-            return 1;
-        }
+        if(row + i < 15 &&
+        row + i - 4 >= 0 &&
+        col - i >= 0 &&
+        col - i + 4 < 15 &&
+        arr[row+i][col-i] != " " &&
+        arr[row+i][col-i] != "X" &&
+        arr[row+i][col-i] == arr[row+i-1][col-i+1] &&
+        arr[row+i][col-i] == arr[row+i-2][col-i+2] &&
+        arr[row+i][col-i] == arr[row+i-3][col-i+3] &&
+        arr[row+i][col-i] == arr[row+i-4][col-i+4]){return 1;}
     }
 
-  // diagonal success (decending)
+    // the othe diginal 
     for(int i = 0; i < 5; i++){
-        if(row - i >= 0 && row - i - 4 < 15 && col - i >= 0 && col - i + 4 < 15){
-          if (arr[row-i][col-i] == arr[row-i+1][col-i+1] &&
-          arr[row-i][col-i] == arr[row-i+2][col-i+2] &&
-          arr[row-i][col-i] == arr[row-i+3][col-i+3] &&
-          arr[row-i][col-i] == arr[row-i+4][col-i+4] &&
-          arr[row-i][col-i]!=" ")
-            return 1;
-        }
+        if(row - i >= 0 &&
+        row - i - 4 < 15 &&
+        col - i >= 0 &&
+        col - i + 4 < 15 &&
+        arr[row-i][col-i] != " " &&
+        arr[row-i][col-i] != "X" &&
+        arr[row-i][col-i] == arr[row-i+1][col-i+1] &&
+        arr[row-i][col-i] == arr[row-i+2][col-i+2] &&
+        arr[row-i][col-i] == arr[row-i+3][col-i+3] &&
+        arr[row-i][col-i] == arr[row-i+4][col-i+4]){return 1;}
     }
 
     return 0;
@@ -458,11 +459,6 @@ void wild_parties(string &player1,string &player2){
     bool game_signal = true;
     cout <<  "Game starts! You may interrupt the game by entering [-1]" << endl;
 }
-
-
-
-
-
 
 // initialize game:
 // 1. choose mode: A.classic, B.blocked mountains (having blocked cells), C. wild parties (several cooool things may happen)
