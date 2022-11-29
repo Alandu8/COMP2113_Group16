@@ -37,6 +37,7 @@ void load_rule(){
 
 int flag = 0;
 int col,row;
+char mode;
 string arr[15][15];
 string save_address;
 
@@ -62,7 +63,7 @@ void print_board(){
 }
 
 // use for save board
-void save_board(string arr[15][15],string player1, string player2, int col, int row, bool game_signal,string save_address, int flag) {
+void save_board(string arr[15][15],string player1, string player2, int col, int row, bool game_signal,string save_address, int flag,char mode) {
     ofstream fout;
 
 //     cout << "Please enter the address you want to save the board, it should end with .txt " << endl;
@@ -79,6 +80,13 @@ void save_board(string arr[15][15],string player1, string player2, int col, int 
         char* dt = ctime(&now);
         fout << "The board paused/ended on: " << dt << endl;
     }
+    if (mode == 'a')
+        fout << "Classic" << endl;
+    else if (mode == 'b')
+        fout << "Blocked Mountain" << endl;
+    else if (mode == 'c')
+        fout << "Wild Party" << endl;
+
 //store the user input --------------------------------------------
     if (flag == 15*15-1){ // this is the case that the board is full and no one win
         fout << "This is a tie game, game over..." << endl;
@@ -506,14 +514,17 @@ int main() {
     // starting game
 
     if (mode_indicator == "a"){
+        mode = 'a';
         cout << "You have chosen classic mode" << endl;
         classic(player1,player2);
     } else {
         if (mode_indicator == "b"){
+            mode = 'b';
             cout << "You have chosen blocked mode" << endl;
             blocked_mountains(player1,player2);
         } else {
             if (mode_indicator == "c"){
+                mode = 'c';
                 cout << "You have chosen wild mode, let's go crazzzy!" << endl;
                 wild_parties(player1,player2);
             } else {
