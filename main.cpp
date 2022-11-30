@@ -7,7 +7,6 @@
 #include <algorithm>
 #include <fstream>
 #include <sstream>
-#include <stdio.h>
 
 using namespace std;
 
@@ -86,7 +85,6 @@ void save_board(string arr[15][15],string player1, string player2, int col, int 
             fout << "Blocked Mountain" << endl;
         else if (mode == 'c')
             fout << "Wild Party" << endl;
-        fout << endl;
     }
     
 
@@ -512,6 +510,12 @@ void file_input(string fn,string &player1, string &player2,char &mode,string &sa
     save_address = fn;
     // line 3 gives the mode
     while (getline(fin,line)){
+        if (line == "There is the final board:"){ 
+            // can detect the wrong file 
+            // the final board is the only wrong file inside this folder
+            cout << "This is the wrong input file, exit..." << endl;
+            exit(1);
+        }
         if (line.substr(0,9) == "There was")
             break;
         num_line++;
@@ -574,8 +578,8 @@ void delete_line(const char *filename,int num_line){ //this function is used to 
     ofs.open("temp.txt", ofstream::out);
     int linecount = 0;
     while (getline(is,line)){
-        if (line.substr(0,9) != "There was"){
-            linecount += 1;
+        if (line.substr(0,9) != "There was" && line.substr(0,9) != "The board"){
+            linecount++;
             ofs << line << endl;
             }
         else if (line.substr(0,9) == "There was"){
