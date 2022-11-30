@@ -7,7 +7,6 @@
 #include <algorithm>
 #include <fstream>
 #include <sstream>
-#include <stdio.h>
 
 using namespace std;
 
@@ -503,10 +502,10 @@ string initialize(string &player1,string &player2){
 
 }
 
-void file_input(string fn,string &player1, string &player2,char &mode,string &save_address,int num_line){
+void file_input(string fn,string &player1, string &player2,char &mode,string &save_address){
     ifstream fin;
     fin.open(fn);
-    int row,col,p1=0,p2=0;
+    int num_line = 0,row,col,p1=0,p2=0;
     string line;
     int count = 0;
     save_address = fn;
@@ -562,35 +561,10 @@ void file_input(string fn,string &player1, string &player2,char &mode,string &sa
             }
         } 
     }
-    //cout << num_line << endl; 
-    //need to delete the lines after num_line 
-    // i.e. delete the line: num_line+=1;
-}
-
-void delete_line(const char *filename,int num_line){ //this function is used to delete 34 lines
-    string line;
-    ifstream is(filename);
-    ofstream ofs;
-    ofs.open("temp.txt", ofstream::out);
-    int linecount = 0;
-    while (getline(is,line)){
-        if (line.substr(0,9) != "There was"){
-            linecount += 1;
-            ofs << line << endl;
-            }
-        else if (line.substr(0,9) == "There was"){
-            break;
-        }
-    }
-    ofs.close();
-    is.close();
-    remove(filename);
-    rename("temp.txt", filename);
 }
 
 
-int main(int argc, char* argv[]) {
-    int num_line = 0; // this is used for the file loading
+int main(int argc, char** argv) {
     for (int i = 0; i<15; i++) {
             for (int j = 0; j<15; j++) {
                 arr[i][j] = " "; //after input, change to ● (black) or ○ (white)
@@ -628,10 +602,10 @@ int main(int argc, char* argv[]) {
     }
     else { 
         // there is file input 
+        string fn = argv[1];
         // file_input(fn,player1,player2,arr,flag);
         // cout << player1 << " " << player2 << " " << flag << endl;
-        file_input(argv[1],player1,player2,mode,save_address,num_line);
-        delete_line(argv[1],num_line);
+        file_input(fn,player1,player2,mode,save_address);
         if (mode == 'a'){
             classic(player1,player2);
         }
