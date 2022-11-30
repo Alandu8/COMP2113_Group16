@@ -85,7 +85,9 @@ void save_board(string arr[15][15],string player1, string player2, int col, int 
             fout << "Blocked Mountain" << endl;
         else if (mode == 'c')
             fout << "Wild Party" << endl;
+        fout << endl;
     }
+
     
 
 //store the user input --------------------------------------------
@@ -559,9 +561,8 @@ void file_input(string fn,string &player1, string &player2,char &mode,string &sa
                 // this means the player2 input 
                 row = line[p2+2]-48;
                 col = line[p2+4]-48;
-                //arr[row][col] = "○";
-                flag++;
                 arr[row][col] = "○";
+                flag++;
                 //cout << row << " " << col << endl;
             }
         } 
@@ -578,7 +579,7 @@ void delete_line(const char *filename,int num_line){ //this function is used to 
     ofs.open("temp.txt", ofstream::out);
     int linecount = 0;
     while (getline(is,line)){
-        if (line.substr(0,9) != "There was" && line.substr(0,9) != "The board"){
+        if (line.substr(0,9) != "There was"){
             linecount++;
             ofs << line << endl;
             }
