@@ -41,6 +41,52 @@ char mode;
 string arr[15][15];
 string save_address;
 
+struct Move{
+    int index,row,col;
+    Move *next;
+};
+
+Move *head, *tail;
+
+void string_to_int(string s, int &num){
+    // we only cares the string of length 1 and 2
+    if (s.length()>1){
+        num = (s[0]-48)*10 + (s[1]-48);
+    }
+    else{
+        num = s[0]-48;
+    }
+}
+
+void tail_insertation(Move * &head, Move * &tail, int row,int col ,int index){
+    Move * p = new Move;
+    p->row = row;
+    p->col = col;
+    p->index = index;
+    p->next = NULL;
+    if (head == NULL){
+        head = p;
+        tail = p;
+    }
+    else {
+        tail->next = p;
+        tail = p;
+    }
+}
+
+void change_value(string arr[15][15]){
+    while (head != NULL){
+        if (head->index%2 == 1){
+            // this means the player1
+            arr[head->row][head->col] = "●";
+        }
+        else {
+            arr[head->row][head->col] = "○";
+        }
+        head = head->next;
+    }
+}
+
 void print_board(){
     cout << "     0   1   2   3   4   5   6   7   8   9  10  11  12  13  14" << endl;
     for (int i = 0; i<15; i++) {
@@ -506,7 +552,8 @@ string initialize(string &player1,string &player2){
 void file_input(string fn,string &player1, string &player2,char &mode,string &save_address,int num_line){
     ifstream fin;
     fin.open(fn);
-    int row,col,p1=0,p2=0;
+    int row,col;
+    string name, row_, col_;
     string line;
     int count = 0;
     save_address = fn;
@@ -533,38 +580,19 @@ void file_input(string fn,string &player1, string &player2,char &mode,string &sa
             }
         }
         if (num_line >= 5){ //from this line it is the user input 
-            //get the name of the player1
-            if (num_line == 5){
-                while (line[p1]!=':'){
-                    player1+=line[p1];
-                    p1++;
-                }
-            } // i store the length of the name for player 1
-            // i + 2 and i + 4 is the row and col input 
-            else if (num_line == 6){
-                while (line[p2]!=':'){
-                    player2+=line[p2];
-                    p2++;
-                }
-            } // j + 2 and j + 4 is the row and col input  
-            // odd line is the player1 and the even line is the player2
-            if (num_line%2==1){
-                //this means the player1 input 
-                row = line[p1+2]-48;
-                col = line[p1+4]-48;
-                arr[row][col] = "●";
-                flag++;
-                //cout << row << " " << col << endl;
-            }
+            flag++;
+            istringstream line_in(line);
+            line_in >> name >> row_ >> col_;
+            name.pop_back();
+
+            if (num_line == 5)
+                player1 = name;
             
-            if (num_line%2==0){
-                // this means the player2 input 
-                row = line[p2+2]-48;
-                col = line[p2+4]-48;
-                arr[row][col] = "○";
-                flag++;
-                //cout << row << " " << col << endl;
-            }
+            if (num_line == 6)
+                player2 = name;
+            string_to_int(row_,row);
+            string_to_int(col_,col);
+            tail_insertation(head, tail, row, col , flag);
         } 
     }
     //cout << num_line << endl; 
@@ -637,6 +665,7 @@ int main(int argc, char* argv[]) {
         // cout << player1 << " " << player2 << " " << flag << endl;
         file_input(argv[1],player1,player2,mode,save_address,num_line);
         delete_line(argv[1],num_line);
+        change_value(arr);
         if (mode == 'a'){
             classic(player1,player2);
         }
