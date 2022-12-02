@@ -161,8 +161,6 @@ void save_board(string arr[15][15],string player1, string player2, int col, int 
         fout << "There is the final board:" << endl;
     }
 
-// ------------------------------------------------------------
-
 //this will print at the end of file I/O
 	if (row == -1 || game_signal == false){
         // if the game is paused
