@@ -10,6 +10,8 @@
 
 using namespace std;
 
+
+
 // load rules of our game
 void load_rule(){
     ifstream fin;
