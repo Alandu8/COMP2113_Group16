@@ -453,6 +453,7 @@ void random_bomb(){
     }
 }
 
+
 void random_convert(){
     //There is a 10% chance that the piece is converted when the player placed it. 
     //i.e. the "○"  will become "●", and the "●" will become "○".
@@ -473,38 +474,100 @@ void random_convert(){
     }
 }
 
+
 void random_support(){
     //There is a 50% chance that the a supported piece will be randomly placed in the board.
     //If the block is occupied or restricted, the supported piece will not appear. 
+    //There is also a 25% chance that your supported piece will be randomly removed.
+    //If there is no supported piece, nothing will happen.
 
-
-    //50% judgement
+    //summon a random number for 50% judgement of adding a supported piece and 25% judgement of deleting a supported piece
     srand(time(NULL)+130);
     int if_support;
-    if_support = rand()%2;
+    if_support = rand()%4;
 
+    //50% of adding a supported piece
     //A supported piece will appear randomly in the board if the place is not occupied or restricted
-    if (if_support == 0){
+    if (if_support <= 1){
 
         if (flag%2 == 0){
             int support_row;
             int support_col;
+
             srand(time(NULL)+131);
             support_row = rand()%15;
             support_col = rand()%15;
+
             if (arr[support_row][support_col] !="●" || arr[support_row][support_col] !="○" ||  arr[support_row][support_col] !="X"){
                 arr[support_row][support_col] = "●";
+
+                cout << "GOOD News: Black's support is coming!" << endl;
+
+                B_support_co[0]=support_row;
+                B_support_co[1]=support_col;
+
+                set_support_co.pushback (B_support_co);
             }
         }
 
         if (flag%2 == 1){
             int support_row;
             int support_col;
+
             srand(time(NULL)+132);
             support_row = rand()%10;
             support_col = rand()%10;
+            
             if (arr[support_row][support_col] !="●" || arr[support_row][support_col] !="○" ||  arr[support_row][support_col] !="X"){
                 arr[support_row][support_col] = "○";
+            
+                cout << "GOOD News: White's support is coming!" << endl;
+
+                W_support_co[0] = support_row;
+                W_support_co[1] = support_col;
+
+                W_set_support_co.pushback (W_support_co);
+            }
+        }
+    }
+    
+    //25% of deleting a supported piece
+    //if there is no supported piece, nothing will happen
+    if(if_support == 2){
+
+
+        if (flag%2 == 0){
+            
+            int B_set_len = B_set_support_co.size();
+            if (B_set_len != 0){
+            
+                srand(time(NULL)+132);
+                int deleting_location = rand()% B_set_len;
+                int del_row = B_set_support_co[deleting_location][0];
+                int del_col = B_set_support_co[deleting_location][1];
+                arr[del_row][del_col] = ' ';
+
+                B_set_support_co.erase(B_set_support_co.begin() + deleting_location)
+
+                cout << "BAD News: One Black's support retreated!" << endl;
+            }
+        
+        }
+
+        if (flag%2 == 1){
+
+            int W_set_len = W_set_support_co.size();
+            if (W_set_len != 0){
+            
+                srand(time(NULL)+133);
+                int deleting_location = rand()% W_set_len;
+                int del_row = W_set_support_co[deleting_location][0];
+                int del_col = W_set_support_co[deleting_location][1];
+                arr[del_row][del_col] = ' ';
+
+                W_set_support_co.erase(W_set_support_co.begin() + deleting_location)
+
+                cout << "BAD News: One White's support retreated!" << endl;
             }
         }
     }
@@ -512,12 +575,49 @@ void random_support(){
 
 
 
-
 void wild_parties(string &player1,string &player2){
     bool game_signal = true;
+    print_board()
     cout <<  "Game starts! You may interrupt the game by entering [-1]" << endl;
-}
 
+    vector<vector<int>> B_set_support_co;
+    vector<int> B_support_co = {-1,-1};
+
+    vector<vector<int>> W_set_support_co;
+    vector<int> W_support_co = {-1,-1};
+
+
+    while (success(arr)){
+        player(flag,col,row,arr,player1,player2,game_signal);
+        if (flag>=1)
+        system("clear");
+        print_board();
+		game_signal = success(arr);
+        if (game_signal){ // this means the game_signal is still true
+            if (flag ==15*15-1){
+                cout << "this is a tie game, game is finished." << endl;
+                game_signal = false;
+            }
+        }
+    }
+    game_signal = success(arr);
+    if (game_signal == false){
+        if (flag%2 == 0) 
+        /*
+        after the success turns false 
+        we need to flag -= 1 
+        to make sure flag%2==0 is player1
+        */
+                cout << player2 << " is the winner!" << endl;
+            else
+                cout << player1 << " is the winner!" << endl;
+    }
+    save_board(arr,player1,player2,col,row,game_signal,save_address,flag);
+    if (flag == 15*15-1){ // this is the case that the board is full and no one win
+        cout << "This is a tie game, game over..." << endl;
+        exit(1);
+    }
+}
 // initialize game:
 // 1. choose mode: A.classic, B.blocked mountains (having blocked cells), C. wild parties (several cooool things may happen)
 // 2. save and load chess board
