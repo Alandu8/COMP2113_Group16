@@ -10,6 +10,19 @@
 
 using namespace std;
 
+// variables 
+int flag = 0;
+int col,row;
+char mode;
+string arr[15][15];
+string save_address;
+
+struct Move{
+    int index,row,col;
+    Move *next;
+};
+
+Move *head, *tail;
 
 
 // load rules of our game
@@ -36,19 +49,6 @@ void load_rule(){
 //black -> ● 
 //white -> ○
 
-
-int flag = 0;
-int col,row;
-char mode;
-string arr[15][15];
-string save_address;
-
-struct Move{
-    int index,row,col;
-    Move *next;
-};
-
-Move *head, *tail;
 
 void string_to_int(string s, int &num){
     // we only cares the string of length 1 and 2
@@ -87,6 +87,17 @@ void change_value(string arr[15][15]){
         }
         head = head->next;
     }
+}
+
+int num_empty(string arr[15][15]){
+    int empty_block=0;
+    for (int i=0;i<15;i++){
+        for (int j=0;j<15;j++){
+            if (arr[i][j]==" ")
+                empty_block++;
+        }
+    }
+    return empty_block;
 }
 
 void print_board(){
@@ -139,7 +150,7 @@ void save_board(string arr[15][15],string player1, string player2, int col, int 
     
 
 //store the user input --------------------------------------------
-    if (flag == 15*15-1){ // this is the case that the board is full and no one win
+    if (num_empty(arr) == 0){ // this is the case that the board is full and no one win
         fout << "This is a tie game, game over..." << endl;
         fout.close();
         exit(1);
@@ -369,7 +380,7 @@ void classic(string &player1,string &player2){
         print_board();
 		game_signal = success(arr);
         if (game_signal){ // this means the game_signal is still true
-            if (flag == 15*15-1){
+            if (num_empty(arr) == 0){
                 cout << "this is a tie game, game is finished." << endl;
                 game_signal = false; //change the value to end the while loop
             }
