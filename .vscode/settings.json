@@ -2,6 +2,13 @@
     "files.associations": {
         "iostream": "cpp",
         "string": "cpp",
+<<<<<<< HEAD
         "ostream": "cpp"
     }
+=======
+        "ostream": "cpp",
+        "iosfwd": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "Enabled"
+>>>>>>> 9f3ef4100e3e7bf5a37638b7fd79df33fa137c62
 }
