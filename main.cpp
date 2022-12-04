@@ -692,8 +692,9 @@ string initialize(string &player1,string &player2){
     if (indicator == "y"){
         load_rule();
     }
-	cout << "Please enter the address you want to save the board, it should end with .txt" << endl;
+	cout << "Please enter the filename you want to save the board" << endl;
     cin >> save_address;
+    save_address += ".txt";
     cout <<  "What's Player1's name? Please enter here:" << endl;
     cin >> player1;
     cout <<  "What's Player2's name? Please enter here:" << endl;
