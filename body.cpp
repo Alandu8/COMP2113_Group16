@@ -4,7 +4,6 @@
 #include <ctime>
 #include <vector>
 #include <iterator>
-#include<bits/stdc++.h>
 #include <algorithm>
 #include <fstream>
 #include <sstream>
@@ -64,7 +63,10 @@ void load_rule(){
 //e.g. convert "15" to 15
 void string_to_int(string s, int &num){
     // we only cares the string of length 1 and 2
-    if (s.length()>1){
+    if (s.length()>2){
+        num = (s[0]-48)*100 + (s[1]-48)*10 + (s[2]-48);
+    }
+    if (s.length() == 2){
         num = (s[0]-48)*10 + (s[1]-48);
     }
     else{
@@ -74,11 +76,12 @@ void string_to_int(string s, int &num){
 
 //this fucntion is used to load the file 
 //insert at the back of the linked list 
-void tail_insertation(Move * &head, Move * &tail, int row,int col ,int index){
+void tail_insertation(Move * &head, Move * &tail, int row,int col ,int index,char signal){
     Move * p = new Move;
     p->row = row;
     p->col = col;
     p->index = index;
+    p->signal = signal;
     p->next = NULL;
     if (head == NULL){
         head = p;
@@ -183,6 +186,7 @@ void save_board(string arr[15][15],string player1, string player2, int col, int 
         if (row == -1){
             fout << "There was " << flag << " moves." << endl;
             fout << "The current board..." << endl;
+
         }
 		fout << "     0   1   2   3   4   5   6   7   8   9  10  11  12  13  14" << endl;
 		for (int i = 0; i<15; i++) {
@@ -208,8 +212,34 @@ void save_board(string arr[15][15],string player1, string player2, int col, int 
             else
                 fout << player2 << " is the winner!" << endl;
 		}
+        fout << "●: " << endl;
+        for (int i=0;i<15;i++){
+            for (int j=0;j<15;j++){
+                if (arr[i][j] == "●"){
+                    fout << i << " " << j << endl;
+                }
+            }
+        }
+        
+        fout << "○: " << endl;
+        for (int i=0;i<15;i++){
+            for (int j=0;j<15;j++){
+                if (arr[i][j] == "○"){
+                    fout << i << " " << j << endl;
+                }
+            }
+        }
+        
+        fout << "X: " << endl;
+        for (int i=0;i<15;i++){
+            for (int j=0;j<15;j++){
+                if (arr[i][j] == "X"){
+                    fout << i << " " << j << endl;
+                }
+            }
+        }
 	}
-
+    
     fout.close();
 }
 
@@ -705,6 +735,9 @@ string initialize(string &player1,string &player2){
 //this function is used when loading a file 
 // this function will take the useful information from the input file 
 void file_input(string fn,string &player1, string &player2,char &mode,string &save_address,int num_line){
+    char signal;
+    int position;
+    string word1,word2,word3,word4;
     ifstream fin;
     fin.open(fn);
     int row,col;
@@ -721,7 +754,7 @@ void file_input(string fn,string &player1, string &player2,char &mode,string &sa
             exit(1);
         }
         if (line.substr(0,9) == "There was")
-            break;
+            position = num_line;
         num_line++;
         if (num_line == 3){ // this line tells the mode
             if (line[0] == 'C'){ // the classic mode 
@@ -734,8 +767,7 @@ void file_input(string fn,string &player1, string &player2,char &mode,string &sa
                 mode = 'c';
             }
         }
-        if (num_line >= 5){ //from this line it is the user input 
-            flag++;
+        if (num_line >= 5 ){ //from this line it is the user input 
             istringstream line_in(line);
             line_in >> name >> row_ >> col_;
             name.pop_back();
@@ -745,10 +777,55 @@ void file_input(string fn,string &player1, string &player2,char &mode,string &sa
             
             if (num_line == 6)
                 player2 = name;
+        } 
+        if (line.substr(0,9) == "There was"){
+            istringstream line_2(line);
+            line_2 >> word1 >> word2 >> word3 >> word4;
+            string_to_int(word3,flag);
+            //cout << 3 << endl;
+        }
+        if (line == "●: "){
+            signal = 'a';
+            //cout << 2 << endl;
+            continue;
+        }
+        if (line == "○: "){
+            signal = 'b';
+            continue;
+        }
+         if (line == "X: "){
+            signal = 'c';
+            continue;
+        }
+
+        // 没进这个
+        if (signal == 'a'){
+            istringstream line_in1(line);
+            //cout << 1 << endl;
+            line_in1 >> row_ >> col_;
             string_to_int(row_,row);
             string_to_int(col_,col);
-            tail_insertation(head, tail, row, col , flag);
-        } 
+            tail_insertation(head,tail,row,col,flag,signal);
+            
+        }
+        
+        if (signal == 'b'){
+            istringstream line_in1(line);
+            line_in1 >> row_ >> col_;
+            //cout << 4 << endl;
+            string_to_int(row_,row);
+            string_to_int(col_,col);
+            tail_insertation(head,tail,row,col,flag,signal);
+        }
+       
+        if (signal == 'c'){
+            istringstream line_in1(line);
+            line_in1 >> row_ >> col_;
+            //cout << 5 << endl;
+            string_to_int(row_,row);
+            string_to_int(col_,col);
+            tail_insertation(head,tail,row,col,flag,signal);
+        }
     }
     //cout << num_line << endl; 
     //need to delete the lines after num_line 

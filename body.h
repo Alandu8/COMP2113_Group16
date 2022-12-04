@@ -8,7 +8,6 @@
 #include <ctime>
 #include <vector>
 #include <iterator>
-#include<bits/stdc++.h>
 #include <algorithm>
 #include <fstream>
 #include <sstream>
@@ -34,6 +33,7 @@ extern bool support_del_cout;
 
 struct Move{
     int index,row,col;
+    char signal;
     Move *next;
 };
 
@@ -49,7 +49,7 @@ void load_rule();
 
 void string_to_int(string s, int &num);
 
-void tail_insertation(Move * &head, Move * &tail, int row,int col ,int index);
+void tail_insertation(Move * &head, Move * &tail, int row,int col ,int index,char signal);
 
 int num_empty(string *arr[15][15]);
 

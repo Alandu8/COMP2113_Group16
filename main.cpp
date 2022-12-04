@@ -2,7 +2,6 @@
 #include <string>
 #include <cstdlib>
 #include <ctime>
-#include<bits/stdc++.h>
 #include <vector>
 #include <iterator>
 #include <algorithm>
@@ -15,12 +14,16 @@ using namespace std;
 
 void change_value(string arr[15][15]){
     while (head != NULL){
-        if (head->index%2 == 1){
+        if (head->signal ==  'a'){
             // this means the player1
+            cout << head->row;
             arr[head->row][head->col] = "●";
         }
-        else {
+        else if (head->signal == 'b'){
             arr[head->row][head->col] = "○";
+        }
+        else if (head->signal == 'c'){
+            arr[head->row][head->col] = "X";
         }
         head = head->next;
     }
@@ -70,6 +73,10 @@ int main(int argc, char* argv[]) {
         // file_input(fn,player1,player2,arr,flag);
         // cout << player1 << " " << player2 << " " << flag << endl;
         file_input(argv[1],player1,player2,mode,save_address,num_line);
+        // while (head != NULL){
+        //     cout << head->row << endl;
+        //     head = head->next;
+        // }
         delete_line(argv[1],num_line);
         change_value(arr);
         if (mode == 'a'){
