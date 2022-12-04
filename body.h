@@ -91,6 +91,7 @@ void classic(string &player1,string &player2);
 
 void blocked_mountains(string &player1,string &player2);
 
+//start the game in the wild mode
 void wild_parties(string &player1,string &player2);
 
 // initialize game:
