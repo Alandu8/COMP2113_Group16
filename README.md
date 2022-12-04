@@ -25,7 +25,6 @@ The winner is the first player to construct a continuous chain of five boxes hor
   - In the blocked mountain mode, the board will randomly generate a few unplaceable positions at the beginning.
   - In the crazzzy mode, three incidents will happen based on certain probabilities:
     - There is a 33.3% chance that a random bomb will be planted in a block. The bomb will remove and block the cell like what happens in Blocked Mode.
-    - There is also a 10% chance that the piece is converted when the player places it. For example, the hollow circle ○ will become solid circle ●, and the solid circle ● will become a hollow circle ○.
     - There is also a 50% chance that the a supported piece of either ● or ○ will be randomly placed on the board. If the block is occupied or blocked, the supported piece will not appear. Meanwhile, for all extra added pieces, no matter ● or ○, it has a 25% chance to be removed in further rounds once it has been added on the chess board.
 
 
