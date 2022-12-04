@@ -59,7 +59,9 @@ void load_rule(){
 //black -> ● 
 //white -> ○
 
-
+//this function is called when we load the file 
+//used to convert the string to int
+//e.g. convert "15" to 15
 void string_to_int(string s, int &num){
     // we only cares the string of length 1 and 2
     if (s.length()>1){
@@ -70,6 +72,8 @@ void string_to_int(string s, int &num){
     }
 }
 
+//this fucntion is used to load the file 
+//insert at the back of the linked list 
 void tail_insertation(Move * &head, Move * &tail, int row,int col ,int index){
     Move * p = new Move;
     p->row = row;
@@ -86,7 +90,8 @@ void tail_insertation(Move * &head, Move * &tail, int row,int col ,int index){
     }
 }
 
-
+//this function is used to load file 
+// this is used change the vlaue of the arr after loading the file 
 int num_empty(string arr[15][15]){
     int empty_block=0;
     for (int i=0;i<15;i++){
@@ -119,7 +124,7 @@ void print_board(){
     cout << "  ·---+---+---+---+---+---+---+---+---+---+---+---+---+---+---·" << endl;
 }
 
-// use for save board
+// use for save board after press -1
 void save_board(string arr[15][15],string player1, string player2, int col, int row, bool game_signal,string save_address, int flag,char mode) {
     ofstream fout;
 
@@ -351,7 +356,7 @@ void random_support(){
 
 // this function is used to take in the user input and change the values inside arr
 // this function will avoid the case 1) user input is out of range 2)the user input is already occupied
-// the player will input row and then col, flag is used todetermine it is player 1 or player 2
+// the player will input row and then col, flag is used to determine it is player 1 or player 2
 void player(int &flag,int &col, int &row, string arr[15][15],string player1,string player2,bool &game_signal){
     cout << "Please press 'return' after the Row input" << endl;
     int check = 0;
@@ -457,6 +462,9 @@ void block() { //initialize board with blocks stopping user input
     }
 }
 
+
+// this function is used to determine if there is 5 in a straight line
+// if there is 5 in the straight line then return 1, else return 0
 int straight_five(string arr[15][15],int row,int col){
     //row
     for(int i = 0; i < 5; i++){
@@ -513,6 +521,8 @@ int straight_five(string arr[15][15],int row,int col){
     return 0;
 }
 
+
+//is there is 5 in the straight line then return false, the game will then end
 bool success(string arr[15][15]) {
     for (int row = 0; row < 15; row++){
         for (int col = 0; col < 15; col++){
@@ -525,7 +535,8 @@ bool success(string arr[15][15]) {
     return true;
 }
 
-
+// this is the classic version of gomoku
+// and in this mode there is no random events 
 void classic(string &player1,string &player2){
     bool game_signal = true;
 	print_board();
@@ -690,6 +701,9 @@ string initialize(string &player1,string &player2){
 
 }
 
+
+//this function is used when loading a file 
+// this function will take the useful information from the input file 
 void file_input(string fn,string &player1, string &player2,char &mode,string &save_address,int num_line){
     ifstream fin;
     fin.open(fn);
@@ -741,6 +755,10 @@ void file_input(string fn,string &player1, string &player2,char &mode,string &sa
     // i.e. delete the line: num_line+=1;
 }
 
+
+//this function will be used when loading a file 
+// this will delete the useless information from the file and keep updating the file
+//useless info is the game board and some sentences
 void delete_line(const char *filename,int num_line){ //this function is used to delete 34 lines
     string line;
     ifstream is(filename);
