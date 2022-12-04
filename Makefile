@@ -1,5 +1,8 @@
 FLAGS = -pedantic-errors -std=c++11 
 
+
+
+
 body.o: body.cpp body.h	
 	g++ $(FLAGS) -c $<
 

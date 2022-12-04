@@ -1,7 +1,7 @@
 // BODY.h
-
 #ifndef BODY_H
 #define BODY_H
+
 
 
 // load rules of our game
@@ -16,14 +16,12 @@ void string_to_int(string s, int &num);
 
 void tail_insertation(Move * &head, Move * &tail, int row,int col ,int index);
 
-void change_value(string arr[15][15]);
-
-int num_empty(string arr[15][15]);
+int num_empty(string *arr[15][15]);
 
 void print_board();
 
 // use for save board
-void save_board(string arr[15][15],string player1, string player2, int col, int row, bool game_signal,string save_address, int flag,char mode);
+void save_board(string *arr[15][15],string player1, string player2, int col, int row, bool game_signal,string save_address, int flag,char mode);
 
 
 
@@ -41,7 +39,7 @@ void random_support();
 // this function is used to take in the user input and change the values inside arr
 // this function will avoid the case 1) user input is out of range 2)the user input is already occupied
 // the player will input row and then col, flag is used todetermine it is player 1 or player 2
-void player(int &flag,int &col, int &row, string arr[15][15],string player1,string player2,bool &game_signal);
+void player(int &flag,int &col, int &row, string *arr[15][15],string player1,string player2,bool &game_signal);
 
 
 
@@ -49,9 +47,9 @@ int Rand(int i);
 
 void block();
 
-int straight_five(string arr[15][15],int row,int col);
+int straight_five(string *arr[15][15],int row,int col);
 
-bool success(string arr[15][15]);
+bool success(string *arr[15][15]);
 
 void classic(string &player1,string &player2);
 

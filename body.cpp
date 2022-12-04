@@ -6,11 +6,6 @@
 #include <iterator>
 #include <algorithm>
 #include <fstream>
-<<<<<<< HEAD
-
-using namespace std;
-
-=======
 #include <sstream>
 #include "body.h"
 using namespace std;
@@ -90,18 +85,6 @@ void tail_insertation(Move * &head, Move * &tail, int row,int col ,int index){
     }
 }
 
-void change_value(string arr[15][15]){
-    while (head != NULL){
-        if (head->index%2 == 1){
-            // this means the player1
-            arr[head->row][head->col] = "●";
-        }
-        else {
-            arr[head->row][head->col] = "○";
-        }
-        head = head->next;
-    }
-}
 
 int num_empty(string arr[15][15]){
     int empty_block=0;
@@ -429,9 +412,7 @@ void player(int &flag,int &col, int &row, string arr[15][15],string player1,stri
     	check++;// if the user input is valid then the while loop will end
   }
 /* above code has figured different situations of user input
-
 ----------------------------------------------------------------
-
 code below changes the value of the 2D array (board)*/
     if (flag%2==0){
 	    arr[row][col] = "●";
@@ -786,6 +767,3 @@ void delete_line(const char *filename,int num_line){ //this function is used to 
     remove(filename);
     rename("temp.txt", filename);
 }
-
->>>>>>> 9f3ef4100e3e7bf5a37638b7fd79df33fa137c62
-
