@@ -79,10 +79,14 @@ void random_support();
 // the player will input row and then col, flag is used todetermine it is player 1 or player 2
 void player(int &flag,int &col, int &row, string *arr[15][15],string player1,string player2,bool &game_signal);
 
+// this is a function to generate random seed used for random_shuffle
 int Rand(int i);
 
+// this function is used to randomly replece empty parts of the board with the block "X"
+// Any part with "X" could not be used for placing chess
 void block();
 
+// This function is to return if any player has achieved a row of 5 chesses
 int straight_five(string *arr[15][15],int row,int col);
 
 bool success(string *arr[15][15]);
@@ -91,7 +95,6 @@ void classic(string &player1,string &player2);
 
 void blocked_mountains(string &player1,string &player2);
 
-//start the game in the wild mode
 void wild_parties(string &player1,string &player2);
 
 // initialize game:
