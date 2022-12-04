@@ -156,6 +156,7 @@ void save_board(string arr[15][15],string player1, string player2, int col, int 
 // this function will avoid the case 1) user input is out of range 2)the user input is already occupied
 // the player will input row and then col, flag is used todetermine it is player 1 or player 2
 void player(int &flag,int &col, int &row, string arr[15][15],string player1,string player2,bool &game_signal){
+    cout << "Please press 'return' after the Row input" << endl;
     int check = 0;
     while (check == 0){
         if (flag%2 +1 == 1) {
@@ -178,6 +179,13 @@ void player(int &flag,int &col, int &row, string arr[15][15],string player1,stri
         save_board(arr,player1,player2,col,row,game_signal,save_address,flag,mode);
         exit(1);
     }
+    if (row != -1 && row <15 && row >= 0)
+        cout << "Row: " << row << endl;
+
+    if (row >=15 || row < 0){
+    	cout << "Invalid Input, try again..." << endl;
+        continue;
+    }
 
 	cin >> col;
 	while (cin.fail() == 1){
@@ -188,11 +196,13 @@ void player(int &flag,int &col, int &row, string arr[15][15],string player1,stri
 	}
 	// fix infinite loop ------------------------------------------------------
 
-    if (col>=15 || row >=15){
+    if (col>=15 || col < 0 ){
     	cout << "Invalid Input, try again..." << endl;
+        continue;
     }
     else if (arr[row][col]=="●" || arr[row][col]=="○" ||  arr[row][col]=="X"){
     	cout << "Invalid Input, try again..." << endl;
+        continue;
     }
     else
     	check++; // if the user input is valid then the while loop will end
