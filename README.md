@@ -74,10 +74,7 @@ The winner is the first player to construct a continuous chain of five boxes hor
   - `main.cpp` is our main function and we will include the functions that we defined in `body.cpp`.
   - we use `Makefile` to link files.
 
-## External Libraries
-
-
-
 ## Further Info
 
-3 links (TO DO)
+Video link:
+
