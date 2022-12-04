@@ -4,6 +4,7 @@
 #include <ctime>
 #include <vector>
 #include <iterator>
+#include<bits/stdc++.h>
 #include <algorithm>
 #include <fstream>
 #include <sstream>
@@ -11,6 +12,7 @@
 using namespace std;
 
 // variables 
+
 int flag = 0;
 int col,row;
 char mode;
@@ -27,12 +29,11 @@ bool convert_cout;
 bool support_add_cout;
 bool support_del_cout;
 
-struct Move{
-    int index,row,col;
-    Move *next;
-};
+
 
 Move *head, *tail;
+string player1,player2;
+
 
 // load rules of our game
 void load_rule(){
@@ -346,13 +347,6 @@ void random_support(){
         }
     }
 }
-
-
-
-
-
-
-
 
 
 // this function is used to take in the user input and change the values inside arr

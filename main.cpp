@@ -2,6 +2,7 @@
 #include <string>
 #include <cstdlib>
 #include <ctime>
+#include<bits/stdc++.h>
 #include <vector>
 #include <iterator>
 #include <algorithm>
@@ -10,30 +11,6 @@
 #include "body.h"
 
 using namespace std;
-
-// variables 
-int flag = 0;
-int col,row;
-char mode;
-string arr[15][15];
-string save_address;
-string mode_indicator;
-
-vector<vector<int>> B_set_support_co;
-vector<int> B_support_co = {-1,-1};
-vector<vector<int>> W_set_support_co;
-vector<int> W_support_co = {-1,-1};
-bool bomb_cout;
-bool convert_cout;
-bool support_add_cout;
-bool support_del_cout;
-
-struct Move{
-    int index,row,col;
-    Move *next;
-};
-
-Move *head, *tail;
 
 
 void change_value(string arr[15][15]){
@@ -49,6 +26,8 @@ void change_value(string arr[15][15]){
     }
 }
 
+
+
 int main(int argc, char* argv[]) {
     int num_line = 0; // this is used for the file loading
     for (int i = 0; i<15; i++) {
@@ -56,7 +35,7 @@ int main(int argc, char* argv[]) {
                 arr[i][j] = " "; //after input, change to ● (black) or ○ (white)
             }
     }
-    string player1,player2;
+    
     if (argc<2){ //there is no file input if argc < 2
         mode_indicator = initialize(player1,player2);
 
