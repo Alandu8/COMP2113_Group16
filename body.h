@@ -58,10 +58,20 @@ void print_board();
 // use for save board
 void save_board(string *arr[15][15],string player1, string player2, int col, int row, bool game_signal,string save_address, int flag,char mode);
 
+//There is a 33% chance that a random bomb planted in a block. 
+//The bomb will remove and restrict the block.
 void random_bomb();
 
+//!!ABANDONED Function!!
+//There is a 10% chance that the piece is converted when the player placed it. 
+//i.e. the "○"  will become "●", and the "●" will become "○".
+//!!ABANDONED Function!!
 void random_convert();
 
+//There is a 50% chance that the a supported piece will be randomly placed in the board.
+//If the block is occupied or restricted, the supported piece will not appear. 
+//There is also a 25% chance that your supported piece will be randomly removed.
+//If there is no supported piece, nothing will happen.
 void random_support();
 
 // this function is used to take in the user input and change the values inside arr
