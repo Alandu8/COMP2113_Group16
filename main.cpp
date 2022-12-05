@@ -83,7 +83,7 @@ int main(int argc, char* argv[]) {
             classic(player1,player2);
         }
         else if (mode == 'b'){
-            blocked_mountains(player1,player2);
+            classic(player1,player2);
         }
         else if (mode == 'c'){
             wild_parties(player1,player2);
