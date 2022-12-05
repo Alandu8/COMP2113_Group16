@@ -23,3 +23,16 @@ block()
 initialize()  
 Consolidation of files  
 
+### Fang Yu  
+#### Files written:  
+README.md  
+  
+#### Functions:  
+main();  
+string_to_int(),tail_insertation(), file_input(), delete_line();  
+save_board();  
+num_empty();  
+player();  
+straight_five();  
+success();  
+classic();  
