@@ -1,4 +1,4 @@
-# COMP2113_Group16
+# COMP2113_Group16 ｜ Gomoku Pro
 COMP 2113 group project for group 16
 
 ## Team members:
@@ -9,8 +9,8 @@ COMP 2113 group project for group 16
 
 ## Game Description
 
+The winning strategy is similar to Gomoku, also known as Five in a Row.  
 There is a 15×15 board for two players. Two players will claim a box alternatively. 
-The winning strategy is similar to Gomoku, also known as Five in a Row. 
 The winner is the first player to construct a continuous chain of five boxes horizontally, vertically, or diagonally, but there are several additional rules in this game.
 
   - The first player should claim an available box.
