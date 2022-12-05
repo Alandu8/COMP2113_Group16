@@ -36,3 +36,13 @@ player();
 straight_five();  
 success();  
 classic();  
+
+### Xing Tian
+#### Files written:
+README.md
+
+#### Functions:
+random_bomb();
+random_convert();
+random_support();
+Final round debuggingg
