@@ -14,8 +14,8 @@ Consolidation and final round debugging
 
 ### Chen Jiaqi
 #### Files written:
-Makefile 
-Readme.md  
+Makefile   
+Readme.md   
 
 #### Functions:
 main()  
