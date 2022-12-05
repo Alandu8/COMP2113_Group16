@@ -43,6 +43,6 @@ README.md
 
 #### Functions:
 random_bomb();  
-random_convert(); 
-random_support(); 
+random_convert();  
+random_support();  
 Final round debuggingg  
