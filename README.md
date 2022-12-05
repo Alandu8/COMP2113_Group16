@@ -51,4 +51,4 @@ The winner is the first player to construct a continuous chain of five boxes hor
 ## Further Info
 
 Video link:
-https://connecthkuhk-my.sharepoint.com/:v:/g/personal/u3553287_connect_hku_hk/Eebk4vX_ZitMo8aYKCN-MpsB0dYa8eIoxwawI38F1ZEbFQ?e=0Tf76W
+https://drive.google.com/file/d/1is_fOZvZMrqlPipjhEf-lwrqxFjKOYWl/view?usp=share_link
