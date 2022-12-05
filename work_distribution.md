@@ -15,10 +15,11 @@ Consolidation and final round debugging
 ### Chen Jiaqi
 #### Files written:
 Makefile 
-Readme.md
+Readme.md  
 
 #### Functions:
-main()
-block()
-initialize()
-Consolidation of files
+main()  
+block()  
+initialize()  
+Consolidation of files  
+
