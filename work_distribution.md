@@ -42,7 +42,7 @@ classic();
 README.md
 
 #### Functions:
-random_bomb();
-random_convert();
-random_support();
-Final round debuggingg
+random_bomb();  
+random_convert(); 
+random_support(); 
+Final round debuggingg  
