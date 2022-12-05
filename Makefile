@@ -11,7 +11,7 @@ main: body.o main.o
 	g++ $(FLAGS) body.o main.o -o main
 
 clean:
-	rm -f !(main.cpp|body.h|body.cpp|instruction.txt|Makefile)
+	rm -f main main.o body.o *.txt
 
 tar:
 	tar main main.o body.o *.txt

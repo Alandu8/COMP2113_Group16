@@ -36,22 +36,17 @@ string player1,player2;
 
 // load rules of our game
 void load_rule(){
-    ifstream fin;
-	fin.open("instruction.txt"); // need to be written
+    cout << "Welcome to the game instruction: " << endl;
+    cout << "1. Classical Mode:" << endl;
+    cout << "Players alternate turns placing a stone (denoted with solid and hollow circles) of their symbol on an empty intersection. One is solid circle ● and the other is a hollow circle ○. Solid circle plays first. The winner is the first player to form an unbroken chain of five stones horizontally, vertically, or diagonally. Placing it so that a line of more than five circles of the same color is created does not result in a win." << endl;
 
-    if ( fin.fail() ){
-		cout << "Error in file opening!"
-			<< endl;
- 		exit(1);
- 	}
+    cout << "2. Blocked Mode: " << endl;
+    cout << "The winning rule will be the same with classic mode :)\n";
+    cout << "However, you will have a few cells which are randomly chosen to be blocked out in blocked mode. No solid or hollow circles can be placed on blocked cells and blocked cells are not taken into account as one circle in the winning five. " << endl;
 
-    string line;
-
-	while ( getline(fin, line) ) {
-		cout << line << endl;
- 	}
-
-	fin.close();
+    cout << "3. Crazzzy Mode:\n";
+    cout << "There is a 33.3% chance that a random bomb will be planted in a block. The bomb will remove and block the cell like what happens in Blocked Mode.\n" ;
+    cout << "There is also a 50% chance that the a supported piece of either ● or ○ will be randomly placed on the board. If the block is occupied or blocked, the supported piece will not appear. Meanwhile, for all extra added pieces, no matter ● or ○, it has a 25% chance to be removed in further rounds once it has been added on the chess board." << endl;
 }
 
 // create a board class to manipulate the chess board
